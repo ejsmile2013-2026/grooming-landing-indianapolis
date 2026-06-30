@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Grooming Plan is Ready!</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary: #0ea5e9;
+      --primary-dark: #0284c7;
+      --primary-light: #e0f2fe;
+      --text: #0c4a6e;
+      --text-muted: #0369a1;
+      --bg: #f0f9ff;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 24px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 24px;
+      padding: 40px 32px;
+      max-width: 500px;
+      width: 100%;
+      box-shadow: 0 8px 40px rgba(14,165,233,0.15);
+      text-align: center;
+      animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.92) translateY(20px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .paw { font-size: 52px; margin-bottom: 16px; display: block; }
+
+    .title {
+      font-size: clamp(22px, 6vw, 28px);
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 6px;
+      line-height: 1.25;
+    }
+
+    .subtitle {
+      font-size: 15px;
+      color: var(--text-muted);
+      margin-bottom: 28px;
+      line-height: 1.6;
+    }
+
+    .plan-box {
+      background: var(--primary-light);
+      border-radius: 16px;
+      padding: 24px 20px;
+      margin-bottom: 24px;
+      text-align: left;
+    }
+
+    .plan-label {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--primary);
+      margin-bottom: 6px;
+    }
+
+    .plan-service {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    .plan-price {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--primary);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .plan-note {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid var(--primary-light);
+      margin: 20px 0;
+    }
+
+    .timeline {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 12px;
+      padding: 14px 20px;
+      margin-bottom: 24px;
+    }
+    .timeline-icon { font-size: 22px; }
+    .timeline-text { font-size: 14px; font-weight: 700; color: #15803d; }
+
+    .call-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 18px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: #fff;
+      border-radius: 50px;
+      font-size: 18px;
+      font-weight: 800;
+      text-decoration: none;
+      box-shadow: 0 8px 26px rgba(14,165,233,0.38);
+      transition: transform 0.2s, box-shadow 0.2s;
+      margin-bottom: 14px;
+    }
+    .call-btn:hover { transform: translateY(-2px); box-shadow: 0 14px 36px rgba(14,165,233,0.45); }
+
+    .back-link {
+      font-size: 14px;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--primary); }
+
+    .brand {
+      margin-top: 32px;
+      font-size: 13px;
+      color: #94a3b8;
+    }
+  </style>
+</head>
+<body>
+
+<script>
+const CONFIG = {
+  businessName: "Happy Paws Grooming",
+  phone:        "(317) 555-0123",
+  phoneRaw:     "+13175550123",
+  primaryColor: "#0ea5e9"
+};
+document.documentElement.style.setProperty('--primary', CONFIG.primaryColor);
+</script>
+
+<div class="card" id="card">
+  <span class="paw">🐾</span>
+  <h1 class="title" id="title">Your Grooming Plan is Ready!</h1>
+  <p class="subtitle" id="subtitle"></p>
+
+  <div class="plan-box" id="plan-box">
+    <div class="plan-label">Recommended service</div>
+    <div class="plan-service" id="plan-service"></div>
+    <div class="plan-price" id="plan-price"></div>
+    <div class="plan-note" id="plan-note"></div>
+  </div>
+
+  <div class="timeline">
+    <span class="timeline-icon">📞</span>
+    <span class="timeline-text">Our groomer will call you within 1 hour</span>
+  </div>
+
+  <a class="call-btn" id="call-btn" href="#">
+    📞 Call Us Now — <span id="call-number"></span>
+  </a>
+
+  <a class="back-link" href="index.html">← Back to homepage</a>
+</div>
+
+<div class="brand" id="brand-name"></div>
+
+<script>
+// ── Read URL params ───────────────────────────────────────────────
+const p        = new URLSearchParams(window.location.search);
+const petName  = p.get('petName')   || 'your pet';
+const owner    = p.get('ownerName') || '';
+const petType  = p.get('petType')   || 'dog';
+const size     = p.get('size')      || 'medium';
+const coat     = p.get('coat')      || 'short';
+const service  = p.get('service')   || 'full';
+
+// ── Pricing matrix ────────────────────────────────────────────────
+const PRICES = {
+  small:  { short: [45,65],  medium: [50,70],  long: [65,85],  double: [65,85]  },
+  medium: { short: [65,85],  medium: [70,90],  long: [85,110], double: [85,110] },
+  large:  { short: [85,110], medium: [90,115], long: [110,145],double: [110,145]}
+};
+
+const SERVICE_NAMES = {
+  bath:    'Bath & Brush Package',
+  full:    'Full Grooming Package',
+  nails:   'Nail Trim',
+  package: 'Premium Full-Service Package'
+};
+
+// ── Build personalised content ────────────────────────────────────
+const capitalize = s => s.charAt(0).toUpperCase() + s.slice(1);
+const coatLabel  = coat === 'double' ? 'double-coat' : coat + '-coat';
+
+document.getElementById('title').textContent =
+  `Your Grooming Plan is Ready, ${capitalize(petName)}!`;
+
+document.getElementById('call-btn').href     = 'tel:' + CONFIG.phoneRaw;
+document.getElementById('call-number').textContent = CONFIG.phone;
+document.getElementById('brand-name').textContent  = CONFIG.businessName;
+
+// Non-dog fallback
+if (petType !== 'dog') {
+  document.getElementById('subtitle').textContent =
+    `We'd love to meet ${capitalize(petName)}! Our groomer will call you within 1 hour to discuss the best service and give you an exact quote.`;
+  document.getElementById('plan-box').innerHTML = `
+    <div class="plan-label">Your plan</div>
+    <div class="plan-service">Personalized Consultation</div>
+    <div class="plan-note" style="margin-top:8px">
+      Every pet is unique. Our groomer will discuss the best options and pricing on your call.
+    </div>`;
+} else {
+  // Dog pricing
+  const range    = (PRICES[size] || PRICES.medium)[coat] || [65,95];
+  let [lo, hi]   = range;
+
+  // Full package adds $15-20
+  if (service === 'package') { lo += 15; hi += 20; }
+  if (service === 'nails')   { lo = 20; hi = 30; }
+
+  document.getElementById('subtitle').textContent =
+    `Based on your ${size}, ${coatLabel} dog, here's what we recommend${owner ? ', ' + owner : ''}:`;
+
+  document.getElementById('plan-service').textContent = SERVICE_NAMES[service] || 'Grooming Package';
+  document.getElementById('plan-price').textContent   = `$${lo}–$${hi}`;
+  document.getElementById('plan-note').textContent    =
+    `This is an estimated range for a ${size} dog with ${coatLabel}. Final price confirmed on your call.`;
+}
+</script>
+
+</body>
+</html>

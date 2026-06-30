@@ -1,0 +1,2404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pet Grooming | Indianapolis</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <style>
+    /* ============================================
+       RESET & VARIABLES
+    ============================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary: #0369a1;
+      --primary-dark: #0c4a6e;
+      --primary-light: #e0f2fe;
+      --gold: #f97316;
+      --gold-dark: #ea580c;
+      --text: #0c4a6e;
+      --text-muted: #0284c7;
+      --bg: #f0f9ff;
+      --bg-soft: #dbeafe;
+      --radius: 16px;
+      --shadow: 0 4px 28px rgba(3,105,161,0.16);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ============================================
+       FADE-IN ANIMATIONS
+    ============================================ */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(42px);
+      transition: opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1), transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* ============================================
+       NAV
+    ============================================ */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px;
+      background: rgba(255,255,255,0.94);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid #dbeafe;
+    }
+
+    .nav-brand {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--primary);
+      letter-spacing: -0.3px;
+    }
+
+    .nav-cta {
+      background: var(--primary);
+      color: #fff;
+      padding: 10px 22px;
+      border-radius: 50px;
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .nav-cta:hover { background: var(--primary-dark); transform: translateY(-1px); }
+
+    /* ============================================
+       HERO
+    ============================================ */
+    #hero {
+      min-height: 100vh;
+      background: url('img./hero.jpg') center/cover no-repeat;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 110px 24px 72px;
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+    }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(7,25,60,0.80) 0%, rgba(3,60,115,0.64) 38%, rgba(3,105,161,0.46) 65%, rgba(56,189,248,0.46) 100%);
+      background-size: 300% 300%;
+      animation: heroGradient 12s ease infinite;
+      z-index: 0;
+    }
+
+    #hero::after {
+      content: '';
+      position: absolute;
+      bottom: -2px; left: 0; right: 0;
+      height: 80px;
+      background: var(--bg);
+      border-radius: 50% 50% 0 0 / 30px 30px 0 0;
+    }
+
+    /* Decorative circles */
+    #hero::before {
+      content: '';
+      position: absolute;
+      width: 500px; height: 500px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.04);
+      top: -100px; right: -150px;
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 620px;
+      color: #fff;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      padding: 6px 16px;
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 50px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 22px;
+      letter-spacing: 0.4px;
+    }
+
+    .hero-h1 {
+      font-size: clamp(26px, 7vw, 50px);
+      font-weight: 800;
+      line-height: 1.18;
+      margin-bottom: 18px;
+      letter-spacing: -0.5px;
+      text-shadow: 0 2px 24px rgba(3,60,115,0.70), 0 1px 8px rgba(0,0,0,0.45);
+    }
+
+    .hero-sub {
+      font-size: clamp(15px, 3vw, 18px);
+      opacity: 0.88;
+      line-height: 1.7;
+      margin-bottom: 34px;
+      text-shadow: 0 1px 12px rgba(3,60,115,0.60), 0 1px 6px rgba(0,0,0,0.38);
+    }
+
+    .hero-btn {
+      display: inline-block;
+      background: linear-gradient(135deg, #fb923c 0%, #f97316 35%, #ea580c 65%, #f97316 100%);
+      color: #fff;
+      padding: 18px 38px;
+      border-radius: 50px;
+      font-size: 17px;
+      font-weight: 800;
+      text-decoration: none;
+      box-shadow: 0 10px 36px rgba(234,88,12,0.48);
+      transition: transform 0.22s, box-shadow 0.22s, filter 0.22s;
+    }
+    .hero-btn:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 20px 52px rgba(234,88,12,0.60); filter: brightness(1.08); }
+
+    .hero-carousel {
+      position: relative;
+      width: 100%;
+      max-width: 480px;
+      height: 280px;
+      margin: 28px auto 0;
+      border-radius: 22px;
+      overflow: hidden;
+      box-shadow: 0 28px 72px rgba(0,0,0,0.55);
+      cursor: pointer;
+    }
+    @media (min-width: 640px) { .hero-carousel { height: 320px; } }
+
+    .carousel-slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+    .carousel-slide.active { opacity: 1; }
+    .carousel-slide img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+    }
+
+    /* Before / After split */
+    .ba-wrap {
+      display: flex;
+      width: 100%; height: 100%;
+    }
+    .ba-side {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+    }
+    .ba-side img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+    .ba-label {
+      position: absolute;
+      top: 12px; left: 10px;
+      background: rgba(0,0,0,0.62);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+    .ba-label-after {
+      background: linear-gradient(135deg, #fb923c, #ea580c);
+      color: #fff;
+      left: auto; right: 10px;
+    }
+    .ba-divider {
+      position: absolute;
+      left: 50%; top: 0; bottom: 0;
+      transform: translateX(-50%);
+      width: 2px;
+      background: rgba(255,255,255,0.85);
+      z-index: 2;
+      pointer-events: none;
+    }
+    .ba-divider::after {
+      content: '⟷';
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      background: #fff;
+      color: #0369a1;
+      font-size: 11px;
+      font-weight: 900;
+      width: 26px; height: 26px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+
+    .carousel-caption {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.82), transparent);
+      padding: 32px 16px 42px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+    .carousel-breed {
+      color: #fff;
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: -0.2px;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+    }
+    .carousel-badge {
+      background: linear-gradient(135deg, #fb923c 0%, #ea580c 50%, #fb923c 100%);
+      color: #fff;
+      padding: 5px 13px;
+      border-radius: 50px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .carousel-dots {
+      position: absolute;
+      bottom: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 6px;
+      z-index: 2;
+    }
+    .carousel-dot {
+      height: 6px; width: 6px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.5);
+      transition: all 0.35s ease;
+      cursor: pointer;
+      border: none;
+      padding: 0;
+    }
+    .carousel-dot.active {
+      background: linear-gradient(90deg, #fb923c, #ea580c);
+      width: 24px;
+      border-radius: 3px;
+    }
+
+    /* ============================================
+       TRUST BAR
+    ============================================ */
+    #trust {
+      padding: 36px 20px;
+      background: var(--bg);
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .trust-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    @media (min-width: 640px) { .trust-grid { grid-template-columns: repeat(4, 1fr); } }
+
+    .trust-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 18px 12px;
+      background: #fff;
+      border: 1.5px solid rgba(3,105,161,0.35);
+      border-radius: 14px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow:
+        0 10px 30px rgba(3,105,161,0.28),
+        0 3px 8px rgba(3,105,161,0.18),
+        inset 0 1px 0 rgba(255,255,255,0.85);
+    }
+    .trust-item:hover { transform: translateY(-3px); }
+    .trust-icon { font-size: 28px; margin-bottom: 8px; }
+    .trust-label { font-size: 13px; font-weight: 800; color: var(--text); }
+    .trust-sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+    /* ============================================
+       BENEFITS
+    ============================================ */
+    #benefits {
+      padding: 68px 24px;
+      background: var(--bg-soft);
+    }
+
+    .section-head {
+      text-align: center;
+      margin-bottom: 44px;
+    }
+    .section-tag {
+      display: inline-block;
+      background: linear-gradient(135deg, #fb923c 0%, #ea580c 50%, #fb923c 100%);
+      color: #fff;
+      padding: 7px 18px;
+      border-radius: 50px;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .section-h2 {
+      font-size: clamp(22px, 5vw, 34px);
+      font-weight: 800;
+      letter-spacing: -0.4px;
+      background: linear-gradient(90deg, var(--text) 0%, var(--primary) 38%, var(--gold) 62%, var(--text) 100%);
+      background-size: 250% 100%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: headingShimmer 7s ease-in-out infinite;
+    }
+    @keyframes headingShimmer {
+      0%, 100% { background-position: 0% 0; }
+      50%       { background-position: 100% 0; }
+    }
+
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+    @media (min-width: 768px) { .benefits-grid { grid-template-columns: repeat(3, 1fr); } }
+
+    .benefit-card {
+      background: #fff;
+      border: 1.5px solid rgba(3,105,161,0.35);
+      border-radius: var(--radius);
+      padding: 30px 26px;
+      box-shadow:
+        0 10px 30px rgba(3,105,161,0.28),
+        0 3px 8px rgba(3,105,161,0.18),
+        inset 0 1px 0 rgba(255,255,255,0.85);
+      transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+    }
+    .benefit-card:hover { transform: translateY(-9px) scale(1.02); box-shadow: 0 24px 68px rgba(3,105,161,0.28), 0 0 0 1.5px rgba(3,105,161,0.50); border-color: var(--primary); }
+    .benefit-icon { font-size: 38px; margin-bottom: 16px; }
+    .benefit-title { font-size: 18px; font-weight: 800; margin-bottom: 10px; }
+    .benefit-text { font-size: 15px; color: var(--text-muted); line-height: 1.65; }
+
+    /* ============================================
+       QUIZ
+    ============================================ */
+    #quiz {
+      padding: 68px 24px;
+      background: #fbfdff;
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+    }
+    .bubbles-bg-video {
+      position: absolute;
+      left: 0;
+      top: -12.5%;
+      width: 100%;
+      height: 125%;
+      object-fit: cover;
+      opacity: 0.4;
+      z-index: -1;
+      pointer-events: none;
+      will-change: transform;
+    }
+
+    /* Paw trail background animation */
+    .paw-trail {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+    .paw-trail i {
+      position: absolute;
+      display: block;
+      width: 26px;
+      height: 26px;
+      opacity: 0;
+      background: var(--primary);
+      -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 45'%3E%3Cellipse cx='20' cy='34' rx='10' ry='8'/%3E%3Cellipse cx='7' cy='20' rx='5' ry='4'/%3E%3Cellipse cx='16' cy='13' rx='5' ry='4'/%3E%3Cellipse cx='25' cy='13' rx='5' ry='4'/%3E%3Cellipse cx='34' cy='20' rx='5' ry='4'/%3E%3C/svg%3E");
+      -webkit-mask-size: contain;
+      -webkit-mask-repeat: no-repeat;
+      mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 45'%3E%3Cellipse cx='20' cy='34' rx='10' ry='8'/%3E%3Cellipse cx='7' cy='20' rx='5' ry='4'/%3E%3Cellipse cx='16' cy='13' rx='5' ry='4'/%3E%3Cellipse cx='25' cy='13' rx='5' ry='4'/%3E%3Cellipse cx='34' cy='20' rx='5' ry='4'/%3E%3C/svg%3E");
+      mask-size: contain;
+      mask-repeat: no-repeat;
+      animation: pawStep 16s ease-in-out infinite;
+    }
+    @keyframes pawStep {
+      0%   { opacity: 0;    transform: scale(0.5) rotate(var(--r)); }
+      3%   { opacity: 0.11; transform: scale(1)   rotate(var(--r)); }
+      8%   { opacity: 0.11; transform: scale(1)   rotate(var(--r)); }
+      13%  { opacity: 0;    transform: scale(1)   rotate(var(--r)); }
+      100% { opacity: 0;    transform: scale(1)   rotate(var(--r)); }
+    }
+
+    .quiz-wrap {
+      max-width: 560px;
+      margin: 0 auto;
+    }
+
+    /* Progress */
+    .q-progress { margin-bottom: 28px; }
+    .q-progress-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 9px;
+    }
+    .q-bar {
+      height: 7px;
+      background: var(--primary-light);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+    .q-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), var(--gold));
+      border-radius: 99px;
+      transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      width: 20%;
+    }
+
+    /* Steps */
+    .q-step { display: none; }
+    .q-step.active {
+      display: block;
+      animation: slideIn 0.3s ease;
+    }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(18px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+
+    .q-question {
+      font-size: clamp(19px, 4.5vw, 24px);
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 22px;
+      line-height: 1.3;
+    }
+
+    .q-options { display: flex; flex-direction: column; gap: 11px; }
+
+    .q-opt {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 15px 20px;
+      background: #fff;
+      border: 1.5px solid rgba(3,105,161,0.35);
+      border-radius: 13px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text);
+      box-shadow: 0 3px 14px rgba(3,105,161,0.13), 0 1px 4px rgba(3,105,161,0.07);
+      transition: all 0.18s ease;
+      -webkit-tap-highlight-color: transparent;
+      box-shadow:
+        0 10px 30px rgba(3,105,161,0.28),
+        0 3px 8px rgba(3,105,161,0.18),
+        inset 0 1px 0 rgba(255,255,255,0.85);
+    }
+    .q-opt:hover { border-color: var(--primary); background: var(--primary-light); }
+    .q-opt.selected {
+      border-color: var(--primary);
+      background: var(--primary-light);
+      color: var(--primary);
+    }
+    .q-emoji { font-size: 22px; flex-shrink: 0; }
+
+    /* Contact form */
+    .q-form { display: flex; flex-direction: column; gap: 16px; }
+    .q-field { display: flex; flex-direction: column; gap: 7px; }
+    .q-label { font-size: 14px; font-weight: 700; color: var(--text); }
+    .q-input {
+      padding: 15px 18px;
+      border: 2px solid #dbeafe;
+      border-radius: 12px;
+      font-size: 16px;
+      font-family: inherit;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s;
+      width: 100%;
+      background: var(--bg-soft);
+    }
+    .q-input:focus { border-color: var(--primary); background: #fff; }
+
+    .q-submit {
+      width: 100%;
+      padding: 19px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: #fff;
+      border: none;
+      border-radius: 50px;
+      font-size: 17px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 8px 26px rgba(3,105,161,0.32);
+      transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+      margin-top: 6px;
+      font-family: inherit;
+    }
+    .q-submit:hover { transform: translateY(-2px); box-shadow: 0 14px 36px rgba(3,105,161,0.38); }
+    .q-submit:active { transform: translateY(0); }
+    .q-submit.loading { opacity: 0.65; pointer-events: none; }
+    .q-privacy { text-align: center; font-size: 13px; color: var(--text-muted); margin-top: 8px; }
+
+    /* ============================================
+       TESTIMONIALS
+    ============================================ */
+    #testimonials {
+      padding: 68px 24px;
+      background: var(--bg-soft);
+    }
+
+    .test-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+    @media (min-width: 768px) { .test-grid { grid-template-columns: repeat(3, 1fr); } }
+
+    .test-card {
+      background: #fff;
+      border: 1.5px solid rgba(3,105,161,0.35);
+      border-radius: var(--radius);
+      padding: 26px 22px;
+      box-shadow:
+        0 10px 30px rgba(3,105,161,0.28),
+        0 3px 8px rgba(3,105,161,0.18),
+        inset 0 1px 0 rgba(255,255,255,0.85);
+      display: flex;
+      flex-direction: column;
+    }
+    .test-stars { color: #f59e0b; font-size: 17px; margin-bottom: 12px; letter-spacing: 2px; }
+    .test-text {
+      font-size: 15px;
+      color: var(--text);
+      line-height: 1.7;
+      flex: 1;
+      font-style: italic;
+      margin-bottom: 18px;
+    }
+    .test-author { display: flex; align-items: center; gap: 12px; }
+    .test-avatar {
+      width: 46px; height: 46px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      font-size: 22px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .test-name { font-size: 14px; font-weight: 800; color: var(--text); }
+    .test-pet { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+    /* ============================================
+       FOOTER
+    ============================================ */
+    footer {
+      background: linear-gradient(145deg, #0c4a6e 0%, #0369a1 100%);
+      color: #fff;
+      padding: 56px 24px 36px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .footer-content { position: relative; z-index: 1; }
+
+    .footer-logo {
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 22px;
+    }
+
+    .footer-call {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      background: linear-gradient(135deg, #fb923c 0%, #f97316 35%, #ea580c 65%, #f97316 100%);
+      color: #fff;
+      padding: 17px 34px;
+      border-radius: 50px;
+      font-size: 18px;
+      font-weight: 800;
+      text-decoration: none;
+      box-shadow: 0 8px 28px rgba(234,88,12,0.48);
+      margin-bottom: 30px;
+      transition: transform 0.2s, box-shadow 0.2s, filter 0.2s;
+    }
+    .footer-call:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 16px 40px rgba(234,88,12,0.60); filter: brightness(1.10); }
+
+    .footer-details {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      font-size: 15px;
+      opacity: 0.88;
+      margin-bottom: 26px;
+    }
+
+    .footer-socials {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 28px;
+    }
+    .footer-social-link {
+      color: #fff;
+      text-decoration: none;
+      font-size: 14px;
+      opacity: 0.75;
+      transition: opacity 0.2s;
+      font-weight: 600;
+    }
+    .footer-social-link:hover { opacity: 1; }
+
+    .footer-divider { border-color: rgba(255,255,255,0.12); margin-bottom: 18px; }
+    .footer-copy { font-size: 13px; opacity: 0.45; }
+    .footer-legal {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 4px 14px;
+      margin-top: 14px;
+      font-size: 11px;
+      opacity: 0.42;
+      line-height: 1.7;
+    }
+    .footer-legal a { color: #fff; text-decoration: none; transition: opacity 0.2s; }
+    .footer-legal a:hover { opacity: 1; text-decoration: underline; }
+    .footer-legal-note {
+      width: 100%;
+      text-align: center;
+      margin-top: 6px;
+      font-size: 10.5px;
+      opacity: 0.55;
+      line-height: 1.6;
+    }
+
+    /* ============================================
+       WOW EFFECTS
+    ============================================ */
+
+    /* Animated hero gradient */
+    @keyframes heroGradient {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Scroll progress bar at very top */
+    #scroll-progress {
+      position: fixed;
+      top: 0; left: 0; height: 3px; width: 0%;
+      background: linear-gradient(90deg, var(--gold), var(--primary), var(--gold));
+      z-index: 300;
+      transition: width 0.08s linear;
+      box-shadow: 0 0 12px rgba(212,175,113,0.7);
+    }
+
+    /* Nav deepens shadow when scrolled */
+    nav { transition: box-shadow 0.35s ease, background 0.35s ease; }
+    nav.scrolled { box-shadow: 0 4px 30px rgba(3,105,161,0.15); }
+
+
+    /* Hero vignette — dark edges */
+    .hero-vignette {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 50%, transparent 28%, rgba(0,0,0,0.52) 100%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Hero content will be animated by JS parallax */
+    .hero-inner { will-change: transform, opacity; }
+
+    /* Shimmer on hero CTA button */
+    .hero-btn { position: relative; overflow: hidden; }
+    .hero-btn::after {
+      content: '';
+      position: absolute;
+      top: -60%; left: -80%;
+      width: 55%; height: 220%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+      transform: skewX(-20deg);
+      animation: btnShimmer 3.5s ease-in-out infinite;
+    }
+    @keyframes btnShimmer {
+      0%   { left: -80%; }
+      100% { left: 140%; }
+    }
+
+    /* Shimmer on nav CTA */
+    .nav-cta { position: relative; overflow: hidden; }
+    .nav-cta::after {
+      content: '';
+      position: absolute;
+      top: -60%; left: -80%;
+      width: 45%; height: 220%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transform: skewX(-20deg);
+      animation: btnShimmer 4s ease-in-out infinite 1.5s;
+    }
+
+    /* Testimonial card hover */
+    .test-card { transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease; }
+    .test-card:hover { transform: translateY(-8px) scale(1.01); box-shadow: 0 20px 58px rgba(3,105,161,0.22), 0 0 0 1.5px rgba(3,105,161,0.40); border-color: var(--primary); }
+
+    /* Trust items — stronger glow */
+    .trust-item { transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease; }
+    .trust-item:hover { transform: translateY(-5px) scale(1.02); box-shadow: 0 12px 36px rgba(3,105,161,0.22), 0 0 0 1.5px rgba(3,105,161,0.40); border-color: var(--primary); }
+
+    /* Footer call button pulse ring */
+    @keyframes callPulse {
+      0%, 100% { box-shadow: 0 8px 28px rgba(234,88,12,0.48), 0 0 0 0 rgba(249,115,22,0.55); }
+      60%       { box-shadow: 0 8px 28px rgba(234,88,12,0.48), 0 0 0 18px rgba(249,115,22,0); }
+    }
+    .footer-call { animation: callPulse 3s ease-out infinite; }
+
+    /* Quiz option tap micro-bounce */
+    .q-opt:active { transform: scale(0.97); transition: transform 0.1s; }
+
+    /* Submit button spinner while loading */
+    .q-submit.loading::before {
+      content: '';
+      display: inline-block;
+      width: 16px; height: 16px;
+      border: 2px solid rgba(255,255,255,0.45);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      margin-right: 10px;
+      vertical-align: middle;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Section tag subtle hover */
+    .section-tag { transition: transform 0.2s; }
+    .section-tag:hover { transform: scale(1.05); }
+
+    /* ============================================
+       HAMBURGER & MOBILE MENU
+    ============================================ */
+    .nav-right { display: flex; align-items: center; gap: 12px; }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .nav-links a {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 7px 13px;
+      border-radius: 50px;
+      transition: color 0.2s, background 0.2s;
+      white-space: nowrap;
+    }
+    .nav-links a:hover {
+      color: var(--primary);
+      background: var(--primary-light);
+    }
+    @media (max-width: 860px) { .nav-links { display: none; } }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px 6px;
+      -webkit-tap-highlight-color: transparent;
+      position: relative;
+      z-index: 101;
+    }
+    .hamburger span {
+      display: block;
+      width: 22px; height: 2.5px;
+      background: var(--primary);
+      border-radius: 3px;
+      transition: transform 0.32s ease, opacity 0.28s ease, background 0.2s;
+    }
+    .hamburger.open span { background: #fff; }
+    .hamburger.open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+    @media (max-width: 640px) {
+      .hamburger                { display: flex; }
+      .nav-cta.nav-cta-desktop  { display: none; }
+    }
+
+    .mobile-menu {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      background: linear-gradient(160deg, #0c4a6e 0%, #0369a1 100%);
+      z-index: 90;
+      padding: 76px 20px 36px;
+      transform: translateY(-12px);
+      opacity: 0;
+      transition: transform 0.32s cubic-bezier(0.4,0,0.2,1), opacity 0.25s ease;
+      pointer-events: none;
+      box-shadow: 0 16px 48px rgba(0,0,0,0.35);
+    }
+    .mobile-menu.open { transform: translateY(0); opacity: 1; pointer-events: all; }
+
+    .mobile-nav { display: flex; flex-direction: column; gap: 4px; }
+    .mobile-nav a {
+      color: rgba(255,255,255,0.88);
+      text-decoration: none;
+      font-size: 17px;
+      font-weight: 700;
+      padding: 14px 16px;
+      border-radius: 13px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      -webkit-tap-highlight-color: transparent;
+      opacity: 0;
+      transform: translateX(-18px);
+      transition: background 0.18s, color 0.18s, opacity 0.28s ease, transform 0.28s ease;
+    }
+    .mobile-menu.open .mobile-nav a { opacity: 1; transform: translateX(0); }
+    .mobile-menu.open .mobile-nav a:nth-child(1) { transition-delay: 0.05s; }
+    .mobile-menu.open .mobile-nav a:nth-child(2) { transition-delay: 0.10s; }
+    .mobile-menu.open .mobile-nav a:nth-child(3) { transition-delay: 0.15s; }
+    .mobile-menu.open .mobile-nav a:nth-child(4) { transition-delay: 0.20s; }
+    .mobile-menu.open .mobile-nav a:nth-child(5) { transition-delay: 0.25s; }
+    .mobile-menu.open .mobile-nav a:nth-child(6) { transition-delay: 0.30s; }
+    .mobile-nav a:hover, .mobile-nav a:active { background: rgba(255,255,255,0.12); color: #fff; }
+    .mobile-nav a:last-child { margin-top: 10px; background: rgba(255,255,255,0.1); }
+
+    .menu-backdrop {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0);
+      z-index: 89;
+      pointer-events: none;
+      transition: background 0.3s;
+    }
+    .menu-backdrop.open { background: rgba(0,0,0,0.2); pointer-events: all; }
+
+    /* ============================================
+       STATS SECTION
+    ============================================ */
+    #stats {
+      padding: 54px 24px;
+      background: linear-gradient(135deg, #0c4a6e 0%, #0369a1 55%, #0ea5e9 100%);
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 28px 16px;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    @media (min-width: 640px) { .stats-grid { grid-template-columns: repeat(4, 1fr); } }
+    .stat-item { text-align: center; }
+    .stat-num {
+      font-size: clamp(40px, 9vw, 58px);
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -1px;
+      margin-bottom: 8px;
+      background: linear-gradient(90deg, #f97316 0%, #fbbf24 20%, #f59e0b 40%, #fbbf24 60%, #f97316 80%, #fbbf24 100%);
+      background-size: 300% 100%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: statShimmer 4s ease-in-out infinite;
+    }
+    @keyframes statShimmer {
+      0%   { background-position: 100% 0; }
+      100% { background-position: -100% 0; }
+    }
+    .stat-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.72);
+      letter-spacing: 0.3px;
+    }
+
+    /* ============================================
+       CONTACT SECTION
+    ============================================ */
+    #contact { padding: 68px 24px; background: var(--bg-soft); }
+    .contact-wrap { max-width: 520px; margin: 0 auto; }
+    .contact-card {
+      background: #fff;
+      border: 1px solid rgba(3,105,161,0.12);
+      border-radius: 24px;
+      padding: 36px 28px;
+      box-shadow: 0 8px 48px rgba(3,105,161,0.22), 0 2px 10px rgba(3,105,161,0.10);
+    }
+    .c-field { display: flex; flex-direction: column; gap: 8px; margin-bottom: 18px; }
+    .c-label { font-size: 14px; font-weight: 700; color: var(--text); }
+    .c-input {
+      padding: 14px 18px;
+      border: 2px solid #dbeafe;
+      border-radius: 12px;
+      font-size: 16px;
+      font-family: inherit;
+      color: var(--text);
+      background: var(--bg-soft);
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
+      width: 100%;
+      -webkit-appearance: none;
+    }
+    .c-input:focus { border-color: var(--primary); background: #fff; }
+    .c-textarea { resize: vertical; min-height: 110px; }
+    .c-btn {
+      width: 100%;
+      padding: 17px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: #fff;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 8px 26px rgba(3,105,161,0.28);
+      transition: transform 0.2s, box-shadow 0.2s;
+      font-family: inherit;
+      margin-top: 6px;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .c-btn:hover { transform: translateY(-2px); box-shadow: 0 14px 36px rgba(3,105,161,0.38); }
+    .c-btn:active { transform: translateY(0); }
+
+    .contact-success { display: none; text-align: center; padding: 16px 0; }
+    .contact-success.show {
+      display: block;
+      animation: successPop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+    @keyframes successPop {
+      from { opacity: 0; transform: scale(0.8) translateY(16px); }
+      to   { opacity: 1; transform: scale(1)   translateY(0); }
+    }
+    .success-svg { width: 84px; height: 84px; margin: 0 auto 22px; display: block; }
+    .success-circle {
+      stroke-dasharray: 151; stroke-dashoffset: 151;
+      animation: drawCircle 0.52s ease forwards 0.08s;
+    }
+    .success-tick {
+      stroke-dasharray: 52; stroke-dashoffset: 52;
+      animation: drawTick 0.38s ease forwards 0.52s;
+    }
+    @keyframes drawCircle { to { stroke-dashoffset: 0; } }
+    @keyframes drawTick   { to { stroke-dashoffset: 0; } }
+    .success-title { font-size: 24px; font-weight: 800; color: var(--text); margin-bottom: 10px; }
+    .success-sub { font-size: 15px; color: var(--text-muted); line-height: 1.65; margin-bottom: 26px; }
+    .c-btn-ghost {
+      background: transparent;
+      border: 2px solid var(--primary);
+      color: var(--primary);
+      padding: 12px 28px;
+      border-radius: 50px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.2s, color 0.2s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .c-btn-ghost:hover { background: var(--primary); color: #fff; }
+
+    /* ============================================
+       BACK TO TOP
+    ============================================ */
+    #back-top {
+      position: fixed;
+      bottom: 26px; right: 20px;
+      width: 50px; height: 50px;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      font-size: 22px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 4px 22px rgba(3,105,161,0.38);
+      opacity: 0;
+      transform: translateY(18px) scale(0.8);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      z-index: 97;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      -webkit-tap-highlight-color: transparent;
+    }
+    #back-top.visible { opacity: 1; transform: translateY(0) scale(1); }
+    #back-top:hover   { background: var(--primary-dark); transform: translateY(-3px) scale(1); }
+
+    /* ============================================
+       SOAP BUBBLES DECORATION
+    ============================================ */
+    .bubbles-wrap {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+    .bbl {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgba(125,211,252,0.15);
+      background: radial-gradient(circle at 32% 28%, rgba(255,255,255,0.10), rgba(186,230,255,0.02));
+      animation: bblRise linear infinite;
+    }
+    @keyframes bblRise {
+      0%   { transform: translateY(0) scale(1); opacity: 0; }
+      8%   { opacity: 0.75; }
+      85%  { opacity: 0.45; }
+      100% { transform: translateY(-130px) scale(1.06); opacity: 0; }
+    }
+
+    /* Decorative pet icons background */
+    .deco-icons {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+    .deco-icons span {
+      position: absolute;
+      font-size: 44px;
+      opacity: 0.065;
+      user-select: none;
+      line-height: 1;
+      animation: iconFloat 9s ease-in-out infinite;
+    }
+    .deco-icons span:nth-child(2) { animation-delay: -3s; animation-duration: 7s; }
+    .deco-icons span:nth-child(3) { animation-delay: -6s; animation-duration: 11s; }
+    .deco-icons span:nth-child(4) { animation-delay: -1.5s; animation-duration: 8s; }
+    .deco-icons span:nth-child(5) { animation-delay: -4.5s; animation-duration: 10s; }
+    @keyframes iconFloat {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      33%       { transform: translateY(-14px) rotate(4deg); }
+      66%       { transform: translateY(8px) rotate(-3deg); }
+    }
+
+    /* Sections that contain decorative elements need position relative */
+    #benefits, #quiz, #testimonials, #trust, #contact {
+      position: relative;
+    }
+    /* Content inside decorated sections stays above decorations */
+    #benefits .section-head, #benefits .benefits-grid,
+    #quiz .quiz-wrap,
+    #testimonials .section-head, #testimonials .test-grid,
+    #trust .trust-grid,
+    #contact .section-head, #contact .contact-wrap {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ============================================
+       FAQ
+    ============================================ */
+    #faq {
+      background: var(--bg);
+      padding: 80px 24px;
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .faq-list {
+      max-width: 720px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .faq-item {
+      background: #fff;
+      border: 1.5px solid rgba(3,105,161,0.35);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(3,105,161,0.14), 0 1px 4px rgba(3,105,161,0.08);
+      transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s, opacity 0.7s ease;
+    }
+    .faq-item.fade-in {
+      transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.25s, box-shadow 0.25s;
+    }
+    .faq-item:hover {
+      box-shadow: 0 8px 32px rgba(3,105,161,0.20), 0 2px 8px rgba(3,105,161,0.10);
+      transform: translateY(-2px);
+    }
+    .faq-item.open {
+      border-color: var(--primary-dark);
+      box-shadow: 0 10px 40px rgba(3,105,161,0.22), 0 2px 8px rgba(3,105,161,0.10);
+      transform: translateY(-2px);
+    }
+
+    .faq-q {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      width: 100%;
+      padding: 20px 22px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      text-align: left;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .faq-q-text {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.4;
+    }
+    .faq-icon {
+      flex-shrink: 0;
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--primary);
+      transition: background 0.25s, transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .faq-item.open .faq-icon {
+      background: var(--primary);
+      color: #fff;
+      transform: rotate(45deg);
+    }
+
+    .faq-a {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1), padding 0.3s;
+      padding: 0 22px;
+    }
+    .faq-item.open .faq-a {
+      max-height: 300px;
+      padding: 0 22px 20px;
+    }
+    .faq-a p {
+      font-size: 15px;
+      color: #475569;
+      line-height: 1.7;
+    }
+    .faq-a strong { color: var(--text); }
+
+    /* ============================================
+       PROMO POPUP
+    ============================================ */
+    .popup-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(7,25,60,0.55);
+      backdrop-filter: blur(4px);
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+    .popup-backdrop.visible {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .popup-card {
+      background: #fff;
+      border-radius: 24px;
+      padding: 36px 28px 28px;
+      max-width: 420px;
+      width: 100%;
+      box-shadow: 0 24px 60px rgba(3,60,115,0.28);
+      position: relative;
+      text-align: center;
+      transform: scale(0.88) translateY(24px);
+      transition: transform 0.45s cubic-bezier(0.34,1.56,0.64,1), opacity 0.4s ease;
+      opacity: 0;
+    }
+    .popup-backdrop.visible .popup-card {
+      transform: scale(1) translateY(0);
+      opacity: 1;
+    }
+
+    .popup-close {
+      position: absolute;
+      top: 14px; right: 16px;
+      width: 32px; height: 32px;
+      border: none;
+      background: #f1f5f9;
+      border-radius: 50%;
+      font-size: 18px;
+      line-height: 32px;
+      cursor: pointer;
+      color: #64748b;
+      transition: background 0.2s, color 0.2s;
+    }
+    .popup-close:hover { background: #e2e8f0; color: #1e293b; }
+
+    .popup-wave { font-size: 40px; margin-bottom: 4px; display: block; }
+    .popup-title {
+      font-size: clamp(18px, 5vw, 22px);
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 12px;
+      line-height: 1.3;
+    }
+    .popup-pet { font-size: 36px; margin-bottom: 8px; display: block; }
+    .popup-text {
+      font-size: 15px;
+      color: #475569;
+      line-height: 1.65;
+      margin-bottom: 18px;
+    }
+
+    .popup-deal {
+      background: linear-gradient(135deg, #fff7ed, #fef3c7);
+      border: 1.5px solid #fed7aa;
+      border-radius: 14px;
+      padding: 14px 18px;
+      margin-bottom: 22px;
+    }
+    .popup-deal-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--gold-dark);
+      margin-bottom: 4px;
+    }
+    .popup-deal-offer {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 3px;
+    }
+    .popup-deal-note {
+      font-size: 12px;
+      color: #94a3b8;
+      font-style: italic;
+    }
+
+    .popup-actions {
+      display: flex;
+      gap: 10px;
+    }
+    .popup-btn-primary {
+      flex: 1;
+      padding: 14px 10px;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 50px;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .popup-btn-primary:hover { background: #3e2723; transform: translateY(-2px); }
+    .popup-btn-secondary {
+      flex: 1;
+      padding: 14px 10px;
+      background: #f1f5f9;
+      color: var(--text);
+      border: none;
+      border-radius: 50px;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .popup-btn-secondary:hover { background: #e2e8f0; transform: translateY(-2px); }
+  </style>
+</head>
+<body>
+
+<!-- ============================================
+     CONFIG — Edit these values for each client
+============================================ -->
+<script>
+const CONFIG = {
+  businessName:  "Happy Paws Grooming",
+  tagline:       "Trusted Pet Grooming Studio in Indianapolis",
+  phone:         "(317) 555-0123",
+  phoneRaw:      "+13175550123",
+  email:         "info@happypaws.com",
+  address:       "123 Main St, Indianapolis, IN 46204",
+  hours:         "Mon–Sat  9am–6pm",
+  primaryColor:  "#0369a1",
+  petsGroomed:   "500+",
+  webhookUrl:    "https://hook.make.com/YOUR_WEBHOOK_ID",
+  instagramUrl:  "https://instagram.com/happypawsindy",
+  yelpUrl:       "https://yelp.com/biz/happy-paws-indianapolis",
+  googleMapsUrl: "https://maps.google.com/?q=123+Main+St+Indianapolis+IN"
+};
+
+// Apply primary color from CONFIG
+document.documentElement.style.setProperty('--primary', CONFIG.primaryColor);
+</script>
+
+<div id="scroll-progress"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">🐾 <span id="nav-name"></span></div>
+  <div class="nav-links">
+    <a href="#benefits">Services</a>
+    <a href="#testimonials">Reviews</a>
+    <a href="#faq">FAQ</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <div class="nav-right">
+    <a href="#quiz" class="nav-cta nav-cta-desktop">Get My Free Quote</a>
+    <button class="hamburger" id="hamburger" aria-label="Open menu" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobile-menu">
+  <nav class="mobile-nav">
+    <a href="#hero"         onclick="closeMenu()">🏠&nbsp; Home</a>
+    <a href="#benefits"     onclick="closeMenu()">🏅&nbsp; Why Choose Us</a>
+    <a href="#quiz"         onclick="closeMenu()">📋&nbsp; Get Free Quote</a>
+    <a href="#testimonials" onclick="closeMenu()">⭐&nbsp; Reviews</a>
+    <a href="#faq"          onclick="closeMenu()">💬&nbsp; FAQ</a>
+    <a href="#contact"      onclick="closeMenu()">✉️&nbsp; Contact Us</a>
+    <a id="menu-phone-link" onclick="closeMenu()">📞&nbsp; <span id="menu-phone-txt"></span></a>
+  </nav>
+</div>
+<div class="menu-backdrop" id="menu-backdrop" onclick="closeMenu()"></div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-overlay"></div>
+  <div class="hero-vignette"></div>
+
+
+  <div class="hero-inner fade-in">
+    <div class="hero-badge" id="hero-badge">📍 Indianapolis, IN &nbsp;·&nbsp; Trusted Since 2019</div>
+    <h1 class="hero-h1">Does Your Dog Actually Look Forward to Bath Day?</h1>
+    <p class="hero-sub">Professional grooming — stress-free for your pet, zero hassle for you. Take our 60-second quiz and get a custom plan with upfront pricing.</p>
+    <a href="#quiz" class="hero-btn">Find My Pet's Grooming Plan →</a>
+    <div class="hero-carousel" id="hero-carousel">
+      <!-- Slide 1: Yorkshire Terrier -->
+      <div class="carousel-slide active">
+        <div class="ba-wrap">
+          <div class="ba-side">
+            <img src="img./YORKSHIRE%20TERRIER_before.jpg" alt="Yorkshire Terrier before grooming" loading="eager">
+            <span class="ba-label">Before</span>
+          </div>
+          <div class="ba-side">
+            <img src="img./YORKSHIRE%20TERRIER_after.jpg" alt="Yorkshire Terrier after grooming" loading="eager">
+            <span class="ba-label ba-label-after">After ✨</span>
+          </div>
+        </div>
+        <div class="ba-divider"></div>
+        <div class="carousel-caption">
+          <span class="carousel-breed">🐕 Yorkshire Terrier — Full Groom</span>
+          <span class="carousel-badge">✨ Transformation</span>
+        </div>
+      </div>
+      <!-- Slide 2: Goldendoodle -->
+      <div class="carousel-slide">
+        <div class="ba-wrap">
+          <div class="ba-side">
+            <img src="img./Goldendoodle_before.jpg" alt="Goldendoodle before grooming" loading="lazy">
+            <span class="ba-label">Before</span>
+          </div>
+          <div class="ba-side">
+            <img src="img./Goldendoodle_after.jpg" alt="Goldendoodle after grooming" loading="lazy">
+            <span class="ba-label ba-label-after">After ✨</span>
+          </div>
+        </div>
+        <div class="ba-divider"></div>
+        <div class="carousel-caption">
+          <span class="carousel-breed">🐕 Goldendoodle — Full Package</span>
+          <span class="carousel-badge">✨ Transformation</span>
+        </div>
+      </div>
+      <!-- Slide 3: Poodle -->
+      <div class="carousel-slide">
+        <div class="ba-wrap">
+          <div class="ba-side">
+            <img src="img./POODLE_before.jpg" alt="Poodle before grooming" loading="lazy">
+            <span class="ba-label">Before</span>
+          </div>
+          <div class="ba-side">
+            <img src="img./POODLE_after.jpg" alt="Poodle after grooming" loading="lazy">
+            <span class="ba-label ba-label-after">After ✨</span>
+          </div>
+        </div>
+        <div class="ba-divider"></div>
+        <div class="carousel-caption">
+          <span class="carousel-breed">🐩 Poodle — Full Groom</span>
+          <span class="carousel-badge">✨ Transformation</span>
+        </div>
+      </div>
+      <!-- Slide 4: Shih Tzu -->
+      <div class="carousel-slide">
+        <div class="ba-wrap">
+          <div class="ba-side">
+            <img src="img./SHIH%20TZU_before.jpg" alt="Shih Tzu before grooming" loading="lazy">
+            <span class="ba-label">Before</span>
+          </div>
+          <div class="ba-side">
+            <img src="img./SHIH%20TZU_after.jpg" alt="Shih Tzu after grooming" loading="lazy">
+            <span class="ba-label ba-label-after">After ✨</span>
+          </div>
+        </div>
+        <div class="ba-divider"></div>
+        <div class="carousel-caption">
+          <span class="carousel-breed">🐕 Shih Tzu — Full Groom</span>
+          <span class="carousel-badge">✨ Transformation</span>
+        </div>
+      </div>
+      <!-- Slide 5: Cavalier King Charles Spaniel -->
+      <div class="carousel-slide">
+        <div class="ba-wrap">
+          <div class="ba-side">
+            <img src="img./CAVALIER%20KING%20CHARLES%20SPANIEL%20%28Blenheim%29_before.jpg" alt="Cavalier before grooming" loading="lazy">
+            <span class="ba-label">Before</span>
+          </div>
+          <div class="ba-side">
+            <img src="img./CAVALIER%20KING%20CHARLES%20SPANIEL%20%28Blenheim%29_afterbefore.jpg" alt="Cavalier after grooming" loading="lazy">
+            <span class="ba-label ba-label-after">After ✨</span>
+          </div>
+        </div>
+        <div class="ba-divider"></div>
+        <div class="carousel-caption">
+          <span class="carousel-breed">🐕 Cavalier King Charles — Full Groom</span>
+          <span class="carousel-badge">✨ Transformation</span>
+        </div>
+      </div>
+      <div class="carousel-dots">
+        <button class="carousel-dot active" onclick="goToSlide(0)" aria-label="Slide 1"></button>
+        <button class="carousel-dot" onclick="goToSlide(1)" aria-label="Slide 2"></button>
+        <button class="carousel-dot" onclick="goToSlide(2)" aria-label="Slide 3"></button>
+        <button class="carousel-dot" onclick="goToSlide(3)" aria-label="Slide 4"></button>
+        <button class="carousel-dot" onclick="goToSlide(4)" aria-label="Slide 5"></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST BAR -->
+<section id="trust">
+  <video class="bubbles-bg-video" autoplay muted loop playsinline aria-hidden="true">
+    <source src="img./bubbles-bg.mp4" type="video/mp4">
+  </video>
+  <div class="bubbles-wrap" aria-hidden="true">
+    <div class="bbl" style="width:32px;height:32px;left:5%;bottom:10%;animation-duration:9s;animation-delay:0s"></div>
+    <div class="bbl" style="width:18px;height:18px;left:18%;bottom:5%;animation-duration:7s;animation-delay:2s"></div>
+    <div class="bbl" style="width:24px;height:24px;left:72%;bottom:8%;animation-duration:11s;animation-delay:1s"></div>
+    <div class="bbl" style="width:14px;height:14px;left:88%;bottom:12%;animation-duration:8s;animation-delay:4s"></div>
+    <div class="bbl" style="width:20px;height:20px;left:45%;bottom:6%;animation-duration:10s;animation-delay:3s"></div>
+  </div>
+  <div class="trust-grid">
+    <div class="trust-item fade-in">
+      <div class="trust-icon">⭐</div>
+      <div class="trust-label">5-Star Rated</div>
+      <div class="trust-sub">Yelp &amp; Google</div>
+    </div>
+    <div class="trust-item fade-in">
+      <div class="trust-icon">📍</div>
+      <div class="trust-label">Indianapolis</div>
+      <div class="trust-sub">Local &amp; trusted</div>
+    </div>
+    <div class="trust-item fade-in">
+      <div class="trust-icon">✅</div>
+      <div class="trust-label">Same-Week</div>
+      <div class="trust-sub">Appointments</div>
+    </div>
+    <div class="trust-item fade-in">
+      <div class="trust-icon">🐾</div>
+      <div class="trust-label" id="trust-count"></div>
+      <div class="trust-sub">Happy pets groomed</div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section id="stats">
+  <div class="stats-grid">
+    <div class="stat-item fade-in" data-target="500" data-suffix="+">
+      <div class="stat-num">0+</div>
+      <div class="stat-label">Pets Groomed</div>
+    </div>
+    <div class="stat-item fade-in" data-target="5" data-suffix="★">
+      <div class="stat-num">0★</div>
+      <div class="stat-label">Star Rating</div>
+    </div>
+    <div class="stat-item fade-in" data-target="6" data-suffix=" yrs">
+      <div class="stat-num">0 yrs</div>
+      <div class="stat-label">In Business</div>
+    </div>
+    <div class="stat-item fade-in" data-target="98" data-suffix="%">
+      <div class="stat-num">0%</div>
+      <div class="stat-label">Happy Clients</div>
+    </div>
+  </div>
+</section>
+
+<!-- BENEFITS -->
+<section id="benefits">
+  <div class="bubbles-wrap" aria-hidden="true">
+    <div class="bbl" style="width:48px;height:48px;left:3%;bottom:15%;animation-duration:12s;animation-delay:0s"></div>
+    <div class="bbl" style="width:22px;height:22px;left:12%;bottom:30%;animation-duration:8s;animation-delay:3s"></div>
+    <div class="bbl" style="width:36px;height:36px;left:25%;bottom:8%;animation-duration:14s;animation-delay:1s"></div>
+    <div class="bbl" style="width:16px;height:16px;left:55%;bottom:20%;animation-duration:9s;animation-delay:5s"></div>
+    <div class="bbl" style="width:52px;height:52px;left:78%;bottom:10%;animation-duration:11s;animation-delay:2s"></div>
+    <div class="bbl" style="width:20px;height:20px;left:90%;bottom:35%;animation-duration:7s;animation-delay:4s"></div>
+    <div class="bbl" style="width:28px;height:28px;left:65%;bottom:5%;animation-duration:13s;animation-delay:0.5s"></div>
+  </div>
+  <div class="deco-icons" aria-hidden="true">
+    <span style="top:8%;left:3%">🐾</span>
+    <span style="top:15%;right:4%">🦴</span>
+    <span style="bottom:12%;left:8%">✂️</span>
+    <span style="bottom:18%;right:6%">🐾</span>
+    <span style="top:45%;left:1%">🛁</span>
+    <span style="top:50%;right:2%">🦴</span>
+  </div>
+  <div class="section-head fade-in">
+    <div class="section-tag">Why choose us</div>
+    <h2 class="section-h2">Grooming That Actually Cares</h2>
+  </div>
+  <div class="benefits-grid">
+    <div class="benefit-card fade-in">
+      <div class="benefit-icon">🏅</div>
+      <h3 class="benefit-title">Certified &amp; Experienced</h3>
+      <p class="benefit-text">Our groomers are trained for all breeds and coat types — from Goldendoodles to Huskies. Your pet is in expert hands.</p>
+    </div>
+    <div class="benefit-card fade-in">
+      <div class="benefit-icon">😌</div>
+      <h3 class="benefit-title">Calm, Stress-Free Environment</h3>
+      <p class="benefit-text">Small-batch grooming only. Your pet gets full individual attention — no crowded kennels, no rushing, no anxiety.</p>
+    </div>
+    <div class="benefit-card fade-in">
+      <div class="benefit-icon">💲</div>
+      <h3 class="benefit-title">No Surprise Bills</h3>
+      <p class="benefit-text">You'll know the exact price before you book. Always. No hidden fees, no awkward conversations at pickup.</p>
+    </div>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<section id="quiz">
+  <video class="bubbles-bg-video" autoplay muted loop playsinline aria-hidden="true">
+    <source src="img./bubbles-bg.mp4" type="video/mp4">
+  </video>
+  <div class="paw-trail" aria-hidden="true">
+    <i style="left:5%;top:88%;--r:80deg;animation-delay:0s"></i>
+    <i style="left:10%;top:87%;--r:65deg;animation-delay:0.8s"></i>
+    <i style="left:14%;top:85%;--r:60deg;animation-delay:1.6s"></i>
+    <i style="left:19%;top:82%;--r:40deg;animation-delay:2.4s"></i>
+    <i style="left:23%;top:77%;--r:40deg;animation-delay:3.2s"></i>
+    <i style="left:28%;top:71%;--r:30deg;animation-delay:4s"></i>
+    <i style="left:33%;top:63%;--r:25deg;animation-delay:4.8s"></i>
+    <i style="left:37%;top:55%;--r:35deg;animation-delay:5.6s"></i>
+    <i style="left:42%;top:48%;--r:35deg;animation-delay:6.4s"></i>
+    <i style="left:46%;top:42%;--r:50deg;animation-delay:7.2s"></i>
+    <i style="left:51%;top:38%;--r:65deg;animation-delay:8s"></i>
+    <i style="left:55%;top:36%;--r:70deg;animation-delay:8.8s"></i>
+    <i style="left:60%;top:34%;--r:75deg;animation-delay:9.6s"></i>
+    <i style="left:64%;top:33%;--r:80deg;animation-delay:10.4s"></i>
+    <i style="left:69%;top:32%;--r:65deg;animation-delay:11.2s"></i>
+    <i style="left:73%;top:30%;--r:50deg;animation-delay:12s"></i>
+    <i style="left:78%;top:26%;--r:35deg;animation-delay:12.8s"></i>
+    <i style="left:82%;top:20%;--r:40deg;animation-delay:13.6s"></i>
+    <i style="left:86%;top:13%;--r:20deg;animation-delay:14.4s"></i>
+    <i style="left:88%;top:6%;--r:15deg;animation-delay:15.2s"></i>
+  </div>
+  <div class="bubbles-wrap" aria-hidden="true">
+    <div class="bbl" style="width:40px;height:40px;left:2%;bottom:20%;animation-duration:10s;animation-delay:1s"></div>
+    <div class="bbl" style="width:20px;height:20px;left:8%;bottom:10%;animation-duration:8s;animation-delay:4s"></div>
+    <div class="bbl" style="width:32px;height:32px;left:88%;bottom:25%;animation-duration:12s;animation-delay:2s"></div>
+    <div class="bbl" style="width:16px;height:16px;left:92%;bottom:12%;animation-duration:7s;animation-delay:0s"></div>
+    <div class="bbl" style="width:44px;height:44px;left:95%;bottom:40%;animation-duration:15s;animation-delay:3s"></div>
+  </div>
+  <div class="deco-icons" aria-hidden="true">
+    <span style="top:5%;left:2%">🐕</span>
+    <span style="top:20%;right:3%">🐾</span>
+    <span style="bottom:10%;left:3%">🦴</span>
+    <span style="bottom:20%;right:2%">✂️</span>
+  </div>
+  <div class="quiz-wrap">
+    <div class="section-head fade-in">
+      <div class="section-tag">60-second quiz</div>
+      <h2 class="section-h2">Find the Perfect Plan for Your Pet</h2>
+      <p style="color:var(--text-muted);margin-top:10px;font-size:15px;line-height:1.6">
+        Answer 5 quick questions — we'll recommend the right service and show you an estimated price.
+      </p>
+    </div>
+
+    <!-- Progress -->
+    <div class="q-progress fade-in">
+      <div class="q-progress-label" id="q-label">Step 1 of 5</div>
+      <div class="q-bar"><div class="q-fill" id="q-fill"></div></div>
+    </div>
+
+    <!-- Step 1 -->
+    <div class="q-step active" id="s1">
+      <p class="q-question">What type of pet do you have?</p>
+      <div class="q-options">
+        <div class="q-opt" onclick="pick(this,'petType','dog',2)">
+          <span class="q-emoji">🐕</span> Dog
+        </div>
+        <div class="q-opt" onclick="pick(this,'petType','cat',2)">
+          <span class="q-emoji">🐈</span> Cat
+        </div>
+        <div class="q-opt" onclick="pick(this,'petType','other',2)">
+          <span class="q-emoji">🐾</span> Other pet
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="q-step" id="s2">
+      <p class="q-question">How big is your pet?</p>
+      <div class="q-options">
+        <div class="q-opt" onclick="pick(this,'petSize','small',3)">
+          <span class="q-emoji">🐩</span> Small — under 20 lbs
+        </div>
+        <div class="q-opt" onclick="pick(this,'petSize','medium',3)">
+          <span class="q-emoji">🐕</span> Medium — 20 to 50 lbs
+        </div>
+        <div class="q-opt" onclick="pick(this,'petSize','large',3)">
+          <span class="q-emoji">🐕‍🦺</span> Large — 50+ lbs
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="q-step" id="s3">
+      <p class="q-question">What's your pet's coat type?</p>
+      <div class="q-options">
+        <div class="q-opt" onclick="pick(this,'coatType','short',4)">
+          <span class="q-emoji">✂️</span> Short coat
+        </div>
+        <div class="q-opt" onclick="pick(this,'coatType','medium',4)">
+          <span class="q-emoji">🌿</span> Medium coat
+        </div>
+        <div class="q-opt" onclick="pick(this,'coatType','long',4)">
+          <span class="q-emoji">🌸</span> Long / Fluffy
+        </div>
+        <div class="q-opt" onclick="pick(this,'coatType','double',4)">
+          <span class="q-emoji">❄️</span> Double coat (Husky, Lab…)
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 4 -->
+    <div class="q-step" id="s4">
+      <p class="q-question">What services are you looking for?</p>
+      <div class="q-options">
+        <div class="q-opt" onclick="pick(this,'services','bath',5)">
+          <span class="q-emoji">🛁</span> Bath &amp; Brush only
+        </div>
+        <div class="q-opt" onclick="pick(this,'services','full',5)">
+          <span class="q-emoji">✂️</span> Full Groom (with haircut)
+        </div>
+        <div class="q-opt" onclick="pick(this,'services','nails',5)">
+          <span class="q-emoji">💅</span> Nail Trim only
+        </div>
+        <div class="q-opt" onclick="pick(this,'services','package',5)">
+          <span class="q-emoji">⭐</span> Full Package — everything
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 5 -->
+    <div class="q-step" id="s5">
+      <p class="q-question">When was your pet's last professional groom?</p>
+      <div class="q-options">
+        <div class="q-opt" onclick="pick(this,'lastGroom','never',6)">
+          <span class="q-emoji">🆕</span> Never / First time
+        </div>
+        <div class="q-opt" onclick="pick(this,'lastGroom','1-3mo',6)">
+          <span class="q-emoji">📅</span> Less than 3 months ago
+        </div>
+        <div class="q-opt" onclick="pick(this,'lastGroom','3-6mo',6)">
+          <span class="q-emoji">🗓️</span> 3 to 6 months ago
+        </div>
+        <div class="q-opt" onclick="pick(this,'lastGroom','6mo+',6)">
+          <span class="q-emoji">⏰</span> Over 6 months ago
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 6 — Contact form -->
+    <div class="q-step" id="s6">
+      <p class="q-question">Almost done! Your plan is being prepared 🐾</p>
+      <div class="q-form">
+        <div class="q-field">
+          <label class="q-label" for="f-pet">Your pet's name</label>
+          <input class="q-input" id="f-pet" type="text" placeholder="e.g. Buddy" autocomplete="off">
+        </div>
+        <div class="q-field">
+          <label class="q-label" for="f-name">Your name</label>
+          <input class="q-input" id="f-name" type="text" placeholder="e.g. Sarah" autocomplete="name">
+        </div>
+        <div class="q-field">
+          <label class="q-label" for="f-phone">Your phone number</label>
+          <input class="q-input" id="f-phone" type="tel" placeholder="(317) 555-0100" autocomplete="tel">
+        </div>
+        <button class="q-submit" id="q-btn" onclick="submitQuiz()">
+          See My Grooming Plan →
+        </button>
+        <p class="q-privacy">🔒 We never share your info. Groomer calls within 1 hour.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="bubbles-wrap" aria-hidden="true">
+    <div class="bbl" style="width:56px;height:56px;left:1%;bottom:18%;animation-duration:13s;animation-delay:0s"></div>
+    <div class="bbl" style="width:24px;height:24px;left:14%;bottom:8%;animation-duration:9s;animation-delay:2s"></div>
+    <div class="bbl" style="width:38px;height:38px;left:38%;bottom:12%;animation-duration:11s;animation-delay:4s"></div>
+    <div class="bbl" style="width:18px;height:18px;left:62%;bottom:6%;animation-duration:8s;animation-delay:1s"></div>
+    <div class="bbl" style="width:44px;height:44px;left:82%;bottom:22%;animation-duration:14s;animation-delay:3s"></div>
+    <div class="bbl" style="width:20px;height:20px;left:95%;bottom:10%;animation-duration:10s;animation-delay:5s"></div>
+  </div>
+  <div class="deco-icons" aria-hidden="true">
+    <span style="top:6%;left:2%">⭐</span>
+    <span style="top:12%;right:3%">🐾</span>
+    <span style="bottom:8%;left:5%">🐕</span>
+    <span style="bottom:15%;right:4%">🦴</span>
+    <span style="top:50%;left:1%">🐩</span>
+  </div>
+  <div class="section-head fade-in">
+    <div class="section-tag">Happy clients</div>
+    <h2 class="section-h2">What Pet Owners Are Saying</h2>
+  </div>
+  <div class="test-grid">
+    <div class="test-card fade-in">
+      <div class="test-stars">★★★★★</div>
+      <p class="test-text">"My golden retriever Max used to shake on the way to the groomer. Now he jumps out of the car excited. The team here is just incredible with anxious dogs."</p>
+      <div class="test-author">
+        <div class="test-avatar">🐕</div>
+        <div>
+          <div class="test-name">Jennifer K.</div>
+          <div class="test-pet">Owner of Max, Golden Retriever</div>
+        </div>
+      </div>
+    </div>
+    <div class="test-card fade-in">
+      <div class="test-stars">★★★★★</div>
+      <p class="test-text">"Finally a groomer who tells you the price upfront! No more guessing. I booked through the quiz on Saturday and got a callback in under 20 minutes. Highly recommend."</p>
+      <div class="test-author">
+        <div class="test-avatar">🐩</div>
+        <div>
+          <div class="test-name">David M.</div>
+          <div class="test-pet">Owner of Coco, Standard Poodle</div>
+        </div>
+      </div>
+    </div>
+    <div class="test-card fade-in">
+      <div class="test-stars">★★★★★</div>
+      <p class="test-text">"Our Husky has a crazy double coat and most groomers just charge a fortune. These guys gave me an exact price range before I even booked. Fair, fast, and perfect result."</p>
+      <div class="test-author">
+        <div class="test-avatar">🐺</div>
+        <div>
+          <div class="test-name">Ashley R.</div>
+          <div class="test-pet">Owner of Storm, Siberian Husky</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <video class="bubbles-bg-video" autoplay muted loop playsinline aria-hidden="true">
+    <source src="img./bubbles-bg.mp4" type="video/mp4">
+  </video>
+  <div class="section-head fade-in">
+    <div class="section-tag">Common questions</div>
+    <h2 class="section-h2">Friendly Questions We Hear Every Day</h2>
+    <p style="color:var(--text-muted);margin-top:10px;font-size:15px;line-height:1.6">
+      Straight answers — no grooming jargon, just what you actually need to know.
+    </p>
+  </div>
+
+  <div class="faq-list fade-in">
+
+    <div class="faq-item fade-in">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span class="faq-q-text">How long does a grooming appointment take?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-a">
+        <p>Most appointments take <strong>1.5 to 3 hours</strong>, depending on your dog's size, coat type, and the service selected. Small dogs with short coats are usually done in about 90 minutes, while large dogs with long or double coats can take closer to 3 hours. We'll give you a time estimate when you book.</p>
+      </div>
+    </div>
+
+    <div class="faq-item fade-in">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span class="faq-q-text">How often should I bring my dog in for grooming?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-a">
+        <p>It depends on the breed and coat type. As a general rule: <strong>short-coat dogs</strong> every 8–12 weeks, <strong>medium-coat dogs</strong> every 6–8 weeks, and <strong>long or double-coat dogs</strong> every 4–6 weeks. Regular grooming prevents painful matting and keeps your pup healthy and comfortable.</p>
+      </div>
+    </div>
+
+    <div class="faq-item fade-in">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span class="faq-q-text">My dog gets anxious at the groomer — is that okay?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-a">
+        <p>Absolutely — many dogs feel nervous the first time. Our groomers are trained to work gently with anxious pets. We take breaks when needed, use calm voices and slow movements, and never rush your dog. <strong>Please let us know in advance</strong> if your pet has anxiety so we can prepare and give extra care.</p>
+      </div>
+    </div>
+
+    <div class="faq-item fade-in">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span class="faq-q-text">What's included in a Full Grooming Package?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-a">
+        <p>Our Full Grooming Package includes: <strong>bath with premium shampoo & conditioner</strong>, blow-dry, brush-out, haircut to your preferred style, nail trim, ear cleaning, and teeth brushing. Basically everything your dog needs to feel — and smell — amazing from nose to tail.</p>
+      </div>
+    </div>
+
+    <div class="faq-item fade-in">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span class="faq-q-text">What if my dog's coat is matted?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-a">
+        <p>We'll always do our best to de-mat gently, but in severe cases the most humane option is a <strong>shave-down</strong> to relieve discomfort. We'll discuss this with you before doing anything. To avoid matting, we recommend regular brushing at home and sticking to a consistent grooming schedule.</p>
+      </div>
+    </div>
+
+    <div class="faq-item fade-in">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span class="faq-q-text">Do you groom cats or other pets?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-a">
+        <p>Yes! We groom cats and some small animals as well. Cat grooming requires a different approach and handling technique, so <strong>please call us first</strong> to discuss your cat's temperament and needs. We want to make sure every visit is a good experience for your pet.</p>
+      </div>
+    </div>
+
+    <div class="faq-item fade-in">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span class="faq-q-text">How do I prepare my pet for their first visit?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-a">
+        <p>A few simple things help a lot: <strong>bring vaccination records</strong> (required for first-time visits), try a short walk beforehand so your dog arrives calm, and let your pet use the bathroom before the appointment. If your dog has any health conditions or sensitivities, mention them when you book.</p>
+      </div>
+    </div>
+
+    <div class="faq-item fade-in">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span class="faq-q-text">Do I need to book in advance?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-a">
+        <p>We strongly recommend booking at least <strong>2–3 days ahead</strong>, especially on weekends — spots fill up fast! Same-day appointments are occasionally available, so it's always worth calling. The easiest way to get started is to <strong>fill out our quick quiz above</strong> and we'll call you back within the hour.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-head fade-in">
+    <div class="section-tag">Get in touch</div>
+    <h2 class="section-h2">Have a Question? Let's Chat</h2>
+    <p style="color:var(--text-muted);margin-top:10px;font-size:15px;line-height:1.6">
+      Drop us a message — we'll get back to you within a few hours.
+    </p>
+  </div>
+  <div class="contact-wrap fade-in">
+    <div class="contact-card">
+      <div id="contact-form-inner">
+        <div class="c-field">
+          <label class="c-label" for="c-name">Your name</label>
+          <input class="c-input" type="text" id="c-name" placeholder="e.g. Sarah" autocomplete="name">
+        </div>
+        <div class="c-field">
+          <label class="c-label" for="c-email">Email address</label>
+          <input class="c-input" type="email" id="c-email" placeholder="sarah@email.com" autocomplete="email">
+        </div>
+        <div class="c-field">
+          <label class="c-label" for="c-msg">Your message</label>
+          <textarea class="c-input c-textarea" id="c-msg" placeholder="Hi! I have a question about…"></textarea>
+        </div>
+        <button class="c-btn" onclick="submitContact()">Send Message →</button>
+      </div>
+      <div class="contact-success" id="contact-success">
+        <svg class="success-svg" viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
+          <circle class="success-circle" cx="26" cy="26" r="24" fill="none" stroke="#22c55e" stroke-width="2.5"/>
+          <path class="success-tick" fill="none" stroke="#22c55e" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" d="M14 26 l9 9 l15-17"/>
+        </svg>
+        <h3 class="success-title">Message Sent!</h3>
+        <p class="success-sub">Thank you for reaching out.<br>We'll get back to you within a few hours.</p>
+        <button class="c-btn-ghost" onclick="resetContact()">← Send Another Message</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="hero-vignette"></div>
+  <div class="footer-content">
+    <div class="footer-logo">🐾 <span id="f-brand"></span></div>
+    <div>
+      <a class="footer-call" id="f-phone-btn" href="#">
+        📞 <span id="f-phone-txt"></span>
+      </a>
+    </div>
+    <div class="footer-details">
+      <span id="f-address"></span>
+      <span id="f-hours"></span>
+    </div>
+    <div class="footer-socials">
+      <a class="footer-social-link" id="f-ig" href="#" target="_blank" rel="noopener">Instagram</a>
+      <a class="footer-social-link" id="f-yelp" href="#" target="_blank" rel="noopener">Yelp</a>
+      <a class="footer-social-link" id="f-maps" href="#" target="_blank" rel="noopener">Google Maps</a>
+    </div>
+    <hr class="footer-divider">
+    <div class="footer-copy" id="f-copy"></div>
+    <div class="footer-legal">
+      <a href="privacy-policy.html">Privacy Policy</a>
+      <span>·</span>
+      <a href="terms-of-service.html">Terms of Service</a>
+      <span>·</span>
+      <a href="accessibility.html">Accessibility</a>
+      <span>·</span>
+      <a href="mailto:" id="f-legal-email">Contact Us</a>
+      <p class="footer-legal-note">
+        By using this website you agree to our Privacy Policy and Terms of Service.
+        We do not sell your personal information. This site uses no tracking cookies.
+        All appointments are subject to availability. Prices are estimates and may vary.
+      </p>
+    </div>
+    <div style="text-align:center;padding:.5rem 0;font-size:.7rem;color:rgba(255,255,255,.25)">
+      Website by <a href="https://ai-touch-site.vercel.app" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">Njasik Touch</a>
+    </div>
+  </div>
+</footer>
+
+<!-- BACK TO TOP -->
+<button id="back-top" aria-label="Back to top">↑</button>
+
+<!-- ============================================
+     JAVASCRIPT
+============================================ -->
+<script>
+// ── Populate CONFIG values into DOM ──────────────────────────────
+document.title = CONFIG.businessName + ' | Professional Pet Grooming';
+document.getElementById('nav-name').textContent      = CONFIG.businessName;
+document.getElementById('hero-badge').textContent    = '📍 ' + CONFIG.tagline;
+document.getElementById('trust-count').textContent   = CONFIG.petsGroomed;
+document.getElementById('f-brand').textContent       = CONFIG.businessName;
+document.getElementById('f-phone-btn').href          = 'tel:' + CONFIG.phoneRaw;
+document.getElementById('f-phone-txt').textContent   = CONFIG.phone;
+document.getElementById('f-address').textContent     = '📍 ' + CONFIG.address;
+document.getElementById('f-hours').textContent       = '🕐 ' + CONFIG.hours;
+document.getElementById('f-ig').href                 = CONFIG.instagramUrl;
+document.getElementById('f-yelp').href               = CONFIG.yelpUrl;
+document.getElementById('f-maps').href               = CONFIG.googleMapsUrl;
+document.getElementById('f-copy').textContent        =
+  '© ' + new Date().getFullYear() + ' ' + CONFIG.businessName + '. All rights reserved.';
+document.getElementById('f-legal-email').href        = 'mailto:' + CONFIG.email;
+
+// ── Quiz state ────────────────────────────────────────────────────
+const answers = {};
+const TOTAL   = 5;
+
+function pick(el, key, value, next) {
+  el.closest('.q-options')
+    .querySelectorAll('.q-opt')
+    .forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  answers[key] = value;
+  setTimeout(() => goStep(next), 280);
+}
+
+function goStep(n) {
+  document.querySelectorAll('.q-step').forEach(s => s.classList.remove('active'));
+  document.getElementById('s' + n)?.classList.add('active');
+
+  const current = Math.min(n - 1, TOTAL);
+  const pct     = (current / TOTAL) * 100;
+  document.getElementById('q-fill').style.width  = pct + '%';
+  document.getElementById('q-label').textContent =
+    n <= TOTAL ? `Step ${current} of ${TOTAL}` : 'Almost done!';
+
+  // Smooth scroll to quiz top
+  document.getElementById('quiz').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+async function submitQuiz() {
+  const petName   = document.getElementById('f-pet').value.trim();
+  const ownerName = document.getElementById('f-name').value.trim();
+  const phone     = document.getElementById('f-phone').value.trim();
+
+  if (!petName || !ownerName || !phone) {
+    document.getElementById('f-pet').reportValidity();
+    alert('Please fill in all three fields to see your grooming plan.');
+    return;
+  }
+
+  const btn = document.getElementById('q-btn');
+  btn.textContent = 'Preparing your plan…';
+  btn.classList.add('loading');
+
+  const payload = {
+    ...answers,
+    petName,
+    ownerName,
+    phone,
+    businessName:  CONFIG.businessName,
+    source:        'landing-page-quiz',
+    submittedAt:   new Date().toISOString()
+  };
+
+  // Send to Make.com (fire-and-forget — don't block redirect)
+  fetch(CONFIG.webhookUrl, {
+    method:  'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body:    JSON.stringify(payload)
+  }).catch(() => {});
+
+  // Redirect to thank-you page with quiz data in URL
+  const p = new URLSearchParams({
+    petName,
+    ownerName,
+    petType: answers.petType  || 'dog',
+    size:    answers.petSize  || 'medium',
+    coat:    answers.coatType || 'short',
+    service: answers.services || 'full'
+  });
+  window.location.href = 'thank-you.html?' + p.toString();
+}
+
+// ── Scroll fade-in with stagger ───────────────────────────────────
+document.querySelectorAll('.benefits-grid, .test-grid, .trust-grid, .faq-list').forEach(grid => {
+  grid.querySelectorAll('.fade-in').forEach((el, i) => {
+    el.style.transitionDelay = (i * 0.10) + 's';
+  });
+});
+
+const io = new IntersectionObserver(
+  entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+  { threshold: 0.1 }
+);
+document.querySelectorAll('.fade-in').forEach(el => io.observe(el));
+
+// ── Scroll effects: progress bar · nav shadow · parallax ─────────
+const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const heroInner      = document.querySelector('.hero-inner');
+const heroEl         = document.getElementById('hero');
+const footerEl       = document.querySelector('footer');
+const footerContent  = document.querySelector('.footer-content');
+const navEl          = document.querySelector('nav');
+const progressEl     = document.getElementById('scroll-progress');
+const backTopBtn     = document.getElementById('back-top');
+const bubblesVideos  = document.querySelectorAll('.bubbles-bg-video');
+
+window.addEventListener('scroll', () => {
+  const y   = window.scrollY;
+  const vh  = window.innerHeight;
+  const total = document.documentElement.scrollHeight - vh;
+
+  // Scroll progress bar
+  progressEl.style.width = (y / total * 100) + '%';
+
+  // Nav shadow deepens on scroll
+  navEl.classList.toggle('scrolled', y > 60);
+
+  // Back to top visibility
+  backTopBtn.classList.toggle('visible', y > 420);
+
+  if (!prefersReduced) {
+    // 1. Hero content — floats up softly
+    if (y < vh * 1.1 && heroInner) {
+      heroInner.style.transform = `translateY(${y * 0.22}px)`;
+      heroInner.style.opacity   = String(Math.max(0.05, 1 - (y / (vh * 0.75)) * 0.55));
+    }
+
+    // 2. Hero background photo — moves slower than content (depth effect)
+    if (y < vh * 1.5 && heroEl) {
+      heroEl.style.backgroundPositionY = `calc(50% + ${y * 0.30}px)`;
+    }
+
+    // 3. Bubbles video parallax — quiz & faq sections
+    bubblesVideos.forEach(video => {
+      const rect = video.parentElement.getBoundingClientRect();
+      if (rect.bottom >= 0 && rect.top <= vh) {
+        video.style.transform = `translateY(${(rect.top - vh * 0.5) * 0.15}px)`;
+      }
+    });
+
+    // 5. Footer content — rises into place as you scroll to it
+    if (footerEl && footerContent) {
+      const fTop    = footerEl.getBoundingClientRect().top;
+      const entered = Math.min(1, Math.max(0, (vh - fTop) / (vh * 0.55)));
+      footerContent.style.transform = `translateY(${(1 - entered) * 38}px)`;
+      footerContent.style.opacity   = String(Math.min(1, entered * 1.6));
+    }
+  }
+}, { passive: true });
+
+// ── Counter animation for trust stat ─────────────────────────────
+(function () {
+  const countEl = document.getElementById('trust-count');
+  const target  = parseInt(CONFIG.petsGroomed, 10);
+  if (!countEl || isNaN(target)) return;
+  new IntersectionObserver(([entry], obs) => {
+    if (!entry.isIntersecting) return;
+    obs.disconnect();
+    let v = 0;
+    (function tick() {
+      v = Math.min(v + Math.ceil(target / 55), target);
+      countEl.textContent = v + '+';
+      if (v < target) requestAnimationFrame(tick);
+    })();
+  }, { threshold: 0.6 }).observe(countEl);
+})();
+
+// ── Stats section counters ────────────────────────────────────────
+const statIO = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    statIO.unobserve(entry.target);
+    const numEl  = entry.target.querySelector('.stat-num');
+    const target = parseInt(entry.target.dataset.target, 10);
+    const suffix = entry.target.dataset.suffix || '';
+    const dur    = target > 50 ? 1400 : 900;
+    const steps  = 55;
+    let v = 0;
+    const id = setInterval(() => {
+      v = Math.min(v + target / steps, target);
+      numEl.textContent = Math.floor(v) + suffix;
+      if (v >= target) clearInterval(id);
+    }, dur / steps);
+  });
+}, { threshold: 0.35 });
+document.querySelectorAll('.stat-item[data-target]').forEach(el => statIO.observe(el));
+
+// ── Mobile menu ───────────────────────────────────────────────────
+function toggleMenu() {
+  const menu     = document.getElementById('mobile-menu');
+  const backdrop = document.getElementById('menu-backdrop');
+  const ham      = document.getElementById('hamburger');
+  const isOpen   = menu.classList.toggle('open');
+  backdrop.classList.toggle('open', isOpen);
+  ham.classList.toggle('open', isOpen);
+  document.body.style.overflow = isOpen ? 'hidden' : '';
+}
+function closeMenu() {
+  document.getElementById('mobile-menu').classList.remove('open');
+  document.getElementById('menu-backdrop').classList.remove('open');
+  document.getElementById('hamburger').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Populate phone link in mobile menu
+document.getElementById('menu-phone-link').href        = 'tel:' + CONFIG.phoneRaw;
+document.getElementById('menu-phone-txt').textContent  = CONFIG.phone;
+
+// ── Contact form ──────────────────────────────────────────────────
+function submitContact() {
+  const nameEl  = document.getElementById('c-name');
+  const emailEl = document.getElementById('c-email');
+  const msgEl   = document.getElementById('c-msg');
+  let ok = true;
+  [nameEl, emailEl, msgEl].forEach(f => {
+    const empty = !f.value.trim();
+    f.style.borderColor = empty ? '#ef4444' : '';
+    if (empty) ok = false;
+  });
+  if (!ok) return;
+  if (!emailEl.value.includes('@')) {
+    emailEl.style.borderColor = '#ef4444';
+    return;
+  }
+  document.getElementById('contact-form-inner').style.display = 'none';
+  document.getElementById('contact-success').classList.add('show');
+}
+function resetContact() {
+  ['c-name', 'c-email', 'c-msg'].forEach(id => {
+    const el = document.getElementById(id);
+    el.value = '';
+    el.style.borderColor = '';
+  });
+  document.getElementById('contact-form-inner').style.display = '';
+  document.getElementById('contact-success').classList.remove('show');
+}
+
+// ── Back to top ───────────────────────────────────────────────────
+backTopBtn.addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+// ── Hero Carousel ─────────────────────────────────────────────────
+(function () {
+  const slides  = document.querySelectorAll('.carousel-slide');
+  const dots    = document.querySelectorAll('.carousel-dot');
+  let   current = 0;
+  let   timer;
+
+  window.goToSlide = function (n) {
+    slides[current].classList.remove('active');
+    dots[current].classList.remove('active');
+    current = (n + slides.length) % slides.length;
+    slides[current].classList.add('active');
+    dots[current].classList.add('active');
+  };
+
+  function start() { timer = setInterval(() => window.goToSlide(current + 1), 4200); }
+  function stop()  { clearInterval(timer); }
+
+  start();
+
+  const el = document.getElementById('hero-carousel');
+  el.addEventListener('mouseenter', stop);
+  el.addEventListener('mouseleave', start);
+  el.addEventListener('touchstart', stop,  { passive: true });
+  el.addEventListener('touchend',   start, { passive: true });
+})();
+
+</script>
+
+<!-- ============================================
+     PROMO POPUP MODAL
+============================================ -->
+<div class="popup-backdrop" id="promo-popup" role="dialog" aria-modal="true">
+  <div class="popup-card">
+    <button class="popup-close" id="popup-close-btn" aria-label="Close">×</button>
+    <span class="popup-wave">👋</span>
+    <h2 class="popup-title" id="popup-title"></h2>
+    <span class="popup-pet">🐶</span>
+    <p class="popup-text" id="popup-text"></p>
+    <div class="popup-deal">
+      <div class="popup-deal-title">🎉 Limited-Time Offer</div>
+      <div class="popup-deal-offer">Get $20 OFF your first grooming!</div>
+      <div class="popup-deal-note">Valid for new clients only · Mention this offer when booking</div>
+    </div>
+    <div class="popup-actions">
+      <button class="popup-btn-primary" id="popup-book-btn">Book Now →</button>
+      <a class="popup-btn-secondary" id="popup-call-btn" href="#">📞 Call Us</a>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── FAQ accordion ────────────────────────────────────────────────
+function toggleFaq(btn) {
+  const item = btn.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+
+// ── Promo Popup ───────────────────────────────────────────────────
+(function () {
+  const DELAY_MS = 35000; // 35 секунд
+  const KEY      = 'promo_popup_shown';
+  const backdrop = document.getElementById('promo-popup');
+
+  // Populate text from CONFIG
+  const city = CONFIG.tagline.split("'")[0].trim();
+  document.getElementById('popup-title').textContent = 'Hello, ' + city + ' Pet Parents!';
+  document.getElementById('popup-text').textContent  =
+    'Your furry friend deserves the best care. ' + CONFIG.businessName + ' offers stress-free, professional grooming — right in your neighborhood.';
+  document.getElementById('popup-call-btn').href     = 'tel:' + CONFIG.phoneRaw;
+
+  function openPopup() {
+    backdrop.classList.add('visible');
+    document.body.style.overflow = 'hidden';
+    sessionStorage.setItem(KEY, '1');
+  }
+
+  function closePopup() {
+    backdrop.classList.remove('visible');
+    document.body.style.overflow = '';
+  }
+
+  document.getElementById('popup-close-btn').addEventListener('click', closePopup);
+  backdrop.addEventListener('click', function (e) {
+    if (e.target === backdrop) closePopup();
+  });
+
+  document.getElementById('popup-book-btn').addEventListener('click', function () {
+    closePopup();
+    const quiz = document.getElementById('quiz');
+    if (quiz) quiz.scrollIntoView({ behavior: 'smooth' });
+  });
+
+  if (!sessionStorage.getItem(KEY)) {
+    setTimeout(openPopup, DELAY_MS);
+  }
+})();
+</script>
+
+
+</body>
+</html>

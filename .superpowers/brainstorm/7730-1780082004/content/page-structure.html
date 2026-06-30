@@ -1,0 +1,89 @@
+<h2>Структура лендинга — 2 файла</h2>
+<p class="subtitle">Полная архитектура шаблона. Проверь каждый блок — всё ли на месте?</p>
+
+<div class="section">
+  <div style="display:inline-block;background:#0ea5e9;color:#fff;padding:4px 12px;border-radius:12px;font-size:11px;font-weight:700;margin-bottom:12px">📄 index.html — главная страница</div>
+
+  <div style="display:flex;flex-direction:column;gap:8px">
+
+    <div style="border-left:4px solid #0ea5e9;background:#f0f9ff;border-radius:0 8px 8px 0;padding:12px 16px">
+      <div style="font-weight:700;color:#0c4a6e;font-size:13px">① HERO</div>
+      <div style="color:#0369a1;font-size:12px;margin-top:3px">Заголовок + подзаголовок + значок доверия + CTA кнопка "Find My Pet's Grooming Plan →"</div>
+      <div style="color:#7dd3fc;font-size:11px;margin-top:3px">Фоновое фото (грумер + собака). Кнопка плавно скроллит к квизу.</div>
+    </div>
+
+    <div style="border-left:4px solid #38bdf8;background:#f0f9ff;border-radius:0 8px 8px 0;padding:12px 16px">
+      <div style="font-weight:700;color:#0c4a6e;font-size:13px">② TRUST BAR</div>
+      <div style="color:#0369a1;font-size:12px;margin-top:3px">⭐ 5-Star Rated &nbsp;·&nbsp; 📍 Walnut Creek &nbsp;·&nbsp; ✓ Same-Week Appointments &nbsp;·&nbsp; 🐾 200+ Happy Pets</div>
+    </div>
+
+    <div style="border-left:4px solid #38bdf8;background:#f0f9ff;border-radius:0 8px 8px 0;padding:12px 16px">
+      <div style="font-weight:700;color:#0c4a6e;font-size:13px">③ BENEFITS (3 карточки)</div>
+      <div style="color:#0369a1;font-size:12px;margin-top:3px">Certified Groomers · Stress-Free Experience · Transparent Pricing</div>
+    </div>
+
+    <div style="border-left:4px solid #f59e0b;background:#fffbeb;border-radius:0 8px 8px 0;padding:12px 16px">
+      <div style="font-weight:700;color:#78350f;font-size:13px">④ QUIZ (главный блок)</div>
+      <div style="color:#92400e;font-size:12px;margin-top:3px">
+        Заголовок "Take the 60-Second Quiz" + прогресс-бар<br>
+        Шаг 1: Тип питомца → Шаг 2: Размер → Шаг 3: Тип шерсти → Шаг 4: Услуги → Шаг 5: Последний груминг<br>
+        Шаг 6: Имя питомца + имя владельца + телефон → кнопка Submit
+      </div>
+      <div style="color:#b45309;font-size:11px;margin-top:3px">При Submit → данные уходят в Make.com webhook → редирект на thank-you.html</div>
+    </div>
+
+    <div style="border-left:4px solid #38bdf8;background:#f0f9ff;border-radius:0 8px 8px 0;padding:12px 16px">
+      <div style="font-weight:700;color:#0c4a6e;font-size:13px">⑤ ОТЗЫВЫ (2–3 шт.)</div>
+      <div style="color:#0369a1;font-size:12px;margin-top:3px">Фото + имя + порода + текст отзыва. Плейсхолдеры, легко заменить.</div>
+    </div>
+
+    <div style="border-left:4px solid #94a3b8;background:#f8fafc;border-radius:0 8px 8px 0;padding:12px 16px">
+      <div style="font-weight:700;color:#334155;font-size:13px">⑥ FOOTER</div>
+      <div style="color:#64748b;font-size:12px;margin-top:3px">Телефон · Адрес · Часы работы · Ссылки (Instagram, Yelp, Google Maps)</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="section">
+  <div style="display:inline-block;background:#22c55e;color:#fff;padding:4px 12px;border-radius:12px;font-size:11px;font-weight:700;margin-bottom:12px">📄 thank-you.html — страница после квиза</div>
+
+  <div style="border-left:4px solid #22c55e;background:#f0fdf4;border-radius:0 8px 8px 0;padding:12px 16px">
+    <div style="font-weight:700;color:#14532d;font-size:13px">Персонализированный план</div>
+    <div style="color:#15803d;font-size:12px;margin-top:3px">
+      "Your Grooming Plan is Ready, [Pet Name]!" <br>
+      Рекомендованная услуга + диапазон цен (рассчитывается по размеру + типу шерсти)<br>
+      "Our groomer will call you within 1 hour to confirm your booking"<br>
+      Кнопка: "Call Us Now" (tel: ссылка)
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div style="display:inline-block;background:#7c3aed;color:#fff;padding:4px 12px;border-radius:12px;font-size:11px;font-weight:700;margin-bottom:12px">⚙️ CONFIG (вверху index.html)</div>
+  <div style="background:#1e1b4b;color:#a5b4fc;border-radius:8px;padding:14px;font-family:monospace;font-size:12px;line-height:1.8">
+    businessName: "Happy Paws Grooming"<br>
+    phone: "(925) 555-0123"<br>
+    address: "123 Main St, Walnut Creek, CA"<br>
+    primaryColor: "#0ea5e9"<br>
+    webhookUrl: "https://hook.make.com/..."<br>
+    instagramUrl: "..."
+  </div>
+</div>
+
+<div class="options">
+  <div class="option" data-choice="approve" onclick="toggleSelect(this)">
+    <div class="letter">✓</div>
+    <div class="content">
+      <h3>Структура верная, идём дальше</h3>
+      <p>Переходим к написанию продающих текстов и деталям дизайна</p>
+    </div>
+  </div>
+  <div class="option" data-choice="change" onclick="toggleSelect(this)">
+    <div class="letter">✎</div>
+    <div class="content">
+      <h3>Хочу что-то изменить</h3>
+      <p>Напишу в терминале</p>
+    </div>
+  </div>
+</div>

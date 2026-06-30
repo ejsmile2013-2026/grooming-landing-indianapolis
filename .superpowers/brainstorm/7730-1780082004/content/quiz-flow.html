@@ -1,0 +1,69 @@
+<h2>Какие вопросы включить в квиз?</h2>
+<p class="subtitle">Выбери набор вопросов — или скажи в терминале что убрать / добавить</p>
+
+<div style="margin-bottom:24px">
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+    <div style="background:#0ea5e9;color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0">1</div>
+    <div style="flex:1;background:#f0f9ff;border:1px solid #bae6fd;border-radius:8px;padding:12px 16px">
+      <div style="font-weight:700;color:#0c4a6e;font-size:14px">What type of pet do you have?</div>
+      <div style="color:#0369a1;font-size:12px;margin-top:4px">🐕 Dog &nbsp;&nbsp; 🐈 Cat &nbsp;&nbsp; 🐾 Other</div>
+    </div>
+  </div>
+
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+    <div style="background:#0ea5e9;color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0">2</div>
+    <div style="flex:1;background:#f0f9ff;border:1px solid #bae6fd;border-radius:8px;padding:12px 16px">
+      <div style="font-weight:700;color:#0c4a6e;font-size:14px">How big is your pet?</div>
+      <div style="color:#0369a1;font-size:12px;margin-top:4px">Small (under 20 lbs) &nbsp;·&nbsp; Medium (20–50 lbs) &nbsp;·&nbsp; Large (50+ lbs)</div>
+    </div>
+  </div>
+
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+    <div style="background:#0ea5e9;color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0">3</div>
+    <div style="flex:1;background:#f0f9ff;border:1px solid #bae6fd;border-radius:8px;padding:12px 16px">
+      <div style="font-weight:700;color:#0c4a6e;font-size:14px">What's your pet's coat type?</div>
+      <div style="color:#0369a1;font-size:12px;margin-top:4px">Short &nbsp;·&nbsp; Medium &nbsp;·&nbsp; Long / Fluffy &nbsp;·&nbsp; Double coat (husky, lab, etc.)</div>
+    </div>
+  </div>
+
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+    <div style="background:#0ea5e9;color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0">4</div>
+    <div style="flex:1;background:#f0f9ff;border:1px solid #bae6fd;border-radius:8px;padding:12px 16px">
+      <div style="font-weight:700;color:#0c4a6e;font-size:14px">What services are you looking for?</div>
+      <div style="color:#0369a1;font-size:12px;margin-top:4px">Bath & Brush only &nbsp;·&nbsp; Full groom (haircut) &nbsp;·&nbsp; Nail trim &nbsp;·&nbsp; Full package</div>
+    </div>
+  </div>
+
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+    <div style="background:#0ea5e9;color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0">5</div>
+    <div style="flex:1;background:#f0f9ff;border:1px solid #bae6fd;border-radius:8px;padding:12px 16px">
+      <div style="font-weight:700;color:#0c4a6e;font-size:14px">When was your pet's last professional groom?</div>
+      <div style="color:#0369a1;font-size:12px;margin-top:4px">Never &nbsp;·&nbsp; Less than 3 months &nbsp;·&nbsp; 3–6 months &nbsp;·&nbsp; Over 6 months</div>
+    </div>
+  </div>
+
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+    <div style="background:#22c55e;color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0">✓</div>
+    <div style="flex:1;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:12px 16px">
+      <div style="font-weight:700;color:#14532d;font-size:14px">Your personalized grooming plan is ready!</div>
+      <div style="color:#15803d;font-size:12px;margin-top:4px">Enter your name + phone number to see it → мастер свяжется в течение 1 часа</div>
+    </div>
+  </div>
+</div>
+
+<div class="options">
+  <div class="option" data-choice="approve" onclick="toggleSelect(this)">
+    <div class="letter">✓</div>
+    <div class="content">
+      <h3>Одобрить этот набор</h3>
+      <p>5 вопросов + контактная форма — оптимальный баланс вовлечения и скорости</p>
+    </div>
+  </div>
+  <div class="option" data-choice="change" onclick="toggleSelect(this)">
+    <div class="letter">✎</div>
+    <div class="content">
+      <h3>Хочу изменить</h3>
+      <p>Напишу в терминале что убрать или добавить</p>
+    </div>
+  </div>
+</div>
