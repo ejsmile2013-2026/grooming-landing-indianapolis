@@ -72,14 +72,18 @@ export default async function handler(req, res) {
     results.telegram = `error: ${err.message}`;
   }
 
-  // 2) Google Sheets (only if SHEETS_WEBHOOK_URL is set)
+  // 2) Google Sheets (only if SHEETS_WEBHOOK_URL is set).
+  // Apps Script /exec sometimes 404s on the first request after deploy/idle —
+  // single retry after a short pause covers that.
   try {
     const sheetUrl = process.env.SHEETS_WEBHOOK_URL;
     if (sheetUrl) {
-      const sRes = await fetch(sheetUrl, {
-        method: 'POST',
-        body: JSON.stringify(data),
-      });
+      const body = JSON.stringify(data);
+      let sRes = await fetch(sheetUrl, { method: 'POST', body, redirect: 'follow' });
+      if (!sRes.ok) {
+        await new Promise((r) => setTimeout(r, 800));
+        sRes = await fetch(sheetUrl, { method: 'POST', body, redirect: 'follow' });
+      }
       results.sheets = sRes.ok ? 'sent' : `failed: HTTP ${sRes.status}`;
     } else {
       results.sheets = 'skipped (SHEETS_WEBHOOK_URL not set yet)';
