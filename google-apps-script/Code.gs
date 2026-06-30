@@ -2,8 +2,27 @@
 // SETUP: paste this into a new Apps Script project bound to your "Indianapolis Leads" Sheet,
 // deploy as Web App (Execute as: Me, Access: Anyone), copy the /exec URL,
 // then set it as Vercel env var SHEETS_WEBHOOK_URL in the grooming-landing-indianapolis project.
+//
+// LEAD TEMPERATURE (column "Temp") is auto-scored on each submission:
+//   +1 if phone is present
+//   +1 if locations is "2-3" or "4+" (multi-site = bigger business)
+//   +1 if goal field is filled
+//   +1 if inquiries is "30-100" or "100+" (real volume)
+//   Score 3-4 → 🟢 hot   Score 2 → 🟡 warm   Score 0-1 → ⚪ cold
+// You can manually override the emoji in any row at any time — the script only writes new rows.
 
 const NOTIFY_EMAIL = 'njasik@icloud.com';
+
+function classifyTemp(d) {
+  let score = 0;
+  if (d.phone && String(d.phone).trim()) score++;
+  if (d.locations === '2-3' || d.locations === '4+') score++;
+  if (d.goal && String(d.goal).trim()) score++;
+  if (d.inquiries === '30-100' || d.inquiries === '100+') score++;
+  if (score >= 3) return '🟢 hot';
+  if (score === 2) return '🟡 warm';
+  return '⚪ cold';
+}
 
 function doPost(e) {
   try {
@@ -12,10 +31,15 @@ function doPost(e) {
 
     if (sheet.getLastRow() === 0) {
       sheet.appendRow(['Timestamp', 'Source', 'Owner Name', 'Email', 'Phone',
-                       'Locations', 'Goal', 'Inquiries', 'Message', 'Language']);
-      sheet.getRange('A1:J1').setFontWeight('bold').setBackground('#0ea5e9').setFontColor('#ffffff');
+                       'Locations', 'Goal', 'Inquiries', 'Message', 'Language', 'Temp']);
+      sheet.getRange('A1:K1').setFontWeight('bold').setBackground('#0ea5e9').setFontColor('#ffffff');
       sheet.setFrozenRows(1);
+    } else if (sheet.getRange('K1').getValue() !== 'Temp') {
+      // Existing sheet without Temp column — add it now.
+      sheet.getRange('K1').setValue('Temp').setFontWeight('bold').setBackground('#0ea5e9').setFontColor('#ffffff');
     }
+
+    const temp = classifyTemp(data);
 
     sheet.appendRow([
       new Date(),
@@ -27,12 +51,14 @@ function doPost(e) {
       data.goal      || '',
       data.inquiries || '',
       data.message   || '',
-      data.lang      || ''
+      data.lang      || '',
+      temp
     ]);
 
-    // Email backup (in addition to Telegram which is sent by the Vercel function)
-    const subject = '🐾 New Indianapolis lead — ' + (data.source || 'form');
+    // Email backup
+    const subject = '🐾 New Indianapolis lead — ' + temp + ' — ' + (data.source || 'form');
     const body =
+      'Temp:        ' + temp + '\n' +
       'Source:      ' + (data.source    || '-') + '\n' +
       'Name:        ' + (data.ownerName || '-') + '\n' +
       'Email:       ' + (data.email     || '-') + '\n' +
@@ -47,7 +73,7 @@ function doPost(e) {
     MailApp.sendEmail(NOTIFY_EMAIL, subject, body);
 
     return ContentService
-      .createTextOutput(JSON.stringify({ ok: true }))
+      .createTextOutput(JSON.stringify({ ok: true, temp: temp }))
       .setMimeType(ContentService.MimeType.JSON);
   } catch (err) {
     return ContentService

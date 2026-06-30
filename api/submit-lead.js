@@ -15,10 +15,24 @@ export default async function handler(req, res) {
 
   const data = req.body && typeof req.body === 'object' ? req.body : {};
 
+  // Lead temperature: same scoring as Google Apps Script side, so Telegram + Sheet agree.
+  const classifyTemp = (d) => {
+    let score = 0;
+    if (d.phone && String(d.phone).trim()) score++;
+    if (d.locations === '2-3' || d.locations === '4+') score++;
+    if (d.goal && String(d.goal).trim()) score++;
+    if (d.inquiries === '30-100' || d.inquiries === '100+') score++;
+    if (score >= 3) return '🟢 hot';
+    if (score === 2) return '🟡 warm';
+    return '⚪ cold';
+  };
+  const temp = classifyTemp(data);
+
   const safe = (v) => (v == null || v === '' ? '—' : String(v));
   const lines = [
-    '🐾 *New lead — Indianapolis grooming proposal*',
+    `🐾 *New lead — Indianapolis* — ${temp}`,
     '',
+    `*Temp:*         ${temp}`,
     `*Source:*       ${safe(data.source)}`,
     `*Name:*         ${safe(data.ownerName)}`,
     `*Email:*        ${safe(data.email)}`,
