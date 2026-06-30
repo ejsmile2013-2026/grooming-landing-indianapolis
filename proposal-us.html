@@ -597,7 +597,19 @@
       z-index: 2;
       pointer-events: none;
     }
-    .proto-iframe { width: 100%; height: 100%; border: none; }
+    .proto-screen {
+      position: absolute;
+      inset: 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      border-radius: 41px;
+    }
+    .proto-iframe { width: 100%; height: 100%; border: none; display: block; background: #0d0d15; }
+    @supports (-webkit-touch-callout: none) {
+      /* iOS Safari: iframes don't scroll natively inside fixed wrappers — make iframe tall so .proto-screen handles scroll */
+      .proto-iframe { height: 2400px; }
+    }
 
     /* FEATURES */
     #features { background: var(--bg); }
@@ -1829,13 +1841,16 @@
       <div class="proto-phone-wrap fade-in">
         <div class="proto-phone">
           <div class="proto-notch"></div>
-          <iframe
-            src="https://grooming-landing-indianapolis.vercel.app"
-            class="proto-iframe"
-            title="Live Demo"
-            loading="lazy"
-            allow="fullscreen"
-          ></iframe>
+          <div class="proto-screen">
+            <iframe
+              src="https://grooming-landing-indianapolis.vercel.app"
+              class="proto-iframe"
+              scrolling="yes"
+              title="Live Demo"
+              loading="lazy"
+              allow="fullscreen"
+            ></iframe>
+          </div>
         </div>
       </div>
       <div class="demo-text fade-in">
