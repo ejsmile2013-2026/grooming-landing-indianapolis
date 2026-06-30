@@ -2038,15 +2038,15 @@
       <form id="contact-form" onsubmit="submitForm(event)">
         <div class="form-group">
           <label class="form-label">// your name</label>
-          <input type="text" class="form-input" placeholder="Jane Smith" required>
+          <input id="contact-name" type="text" class="form-input" placeholder="Jane Smith" required>
         </div>
         <div class="form-group">
           <label class="form-label">// email</label>
-          <input type="email" class="form-input" placeholder="jane@yourbusiness.com" required>
+          <input id="contact-email" type="email" class="form-input" placeholder="jane@yourbusiness.com" required>
         </div>
         <div class="form-group">
           <label class="form-label">// message</label>
-          <textarea class="form-textarea" placeholder="Tell me about your business and what you need..." required></textarea>
+          <textarea id="contact-message" class="form-textarea" placeholder="Tell me about your business and what you need..." required></textarea>
         </div>
         <button type="submit" class="btn-submit">Send Message →</button>
       </form>
@@ -2326,11 +2326,23 @@
     }
   });
 
-  // Contact form success animation
+  // Contact form: send to backend (/api/submit-lead) then show success
   function submitForm(e) {
     e.preventDefault();
     var form = document.getElementById('contact-form');
     var success = document.getElementById('form-success');
+    var payload = {
+      ownerName: (document.getElementById('contact-name')||{}).value || '',
+      email:     (document.getElementById('contact-email')||{}).value || '',
+      message:   (document.getElementById('contact-message')||{}).value || '',
+      source:    'proposal-us-contact-form',
+      lang:      (typeof currentLang !== 'undefined' ? currentLang : 'en')
+    };
+    fetch('/api/submit-lead', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    }).catch(function(err){ console.error('submit-lead failed:', err); });
     form.style.display = 'none';
     success.style.display = 'flex';
   }
@@ -2436,14 +2448,11 @@
       source:      'proposal-us-hero-widget',
       lang:        currentLang
     };
-    // TODO: replace this console.log with fetch() to your backend / webhook.
-    // Example:
-    //   fetch('https://hook.make.com/YOUR_WEBHOOK_ID', {
-    //     method: 'POST',
-    //     headers: { 'Content-Type': 'application/json' },
-    //     body: JSON.stringify(payload)
-    //   });
-    console.log('[hero-widget payload — not yet sent to backend]', payload);
+    fetch('/api/submit-lead', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    }).catch(function(err){ console.error('submit-lead failed:', err); });
 
     // Hide form UI, show success state
     document.getElementById('widget-progress').style.display = 'none';
