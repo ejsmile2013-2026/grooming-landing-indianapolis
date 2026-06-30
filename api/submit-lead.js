@@ -22,7 +22,7 @@ export default async function handler(req, res) {
     if (d.locations === '2-3' || d.locations === '4+') score++;
     if (d.goal && String(d.goal).trim()) score++;
     if (d.inquiries === '30-100' || d.inquiries === '100+') score++;
-    if (score >= 3) return '🟢 hot';
+    if (score >= 3) return '🔴 hot';
     if (score === 2) return '🟡 warm';
     return '⚪ cold';
   };
