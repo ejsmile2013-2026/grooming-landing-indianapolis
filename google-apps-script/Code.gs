@@ -15,8 +15,15 @@
 //
 // To populate Temp on existing rows that were created before this column existed,
 // open this script and click Run → backfillTemp (one-time).
+//
+// PROPOSAL VIEWS: when a personalized proposal link (…/proposal-us.html?lead=…) is
+// opened, the page POSTs { event: 'proposal_view', … } here. Those events go to a
+// separate "Views" tab and never touch the leads sheet or trigger an email.
 
-const NOTIFY_EMAIL = 'njasik@icloud.com';
+const NOTIFY_EMAIL  = 'njasik@icloud.com';
+const REGION_LABEL  = 'Indianapolis / Indiana';
+const PROJECT_LABEL = 'grooming-indianapolis';
+const VIEW_LABEL    = 'Indianapolis Grooming Proposal';
 
 function classifyTemp(d) {
   let score = 0;
@@ -39,9 +46,44 @@ function ensureTempHeader(sheet) {
   }
 }
 
+function getOrCreateViewsSheet() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  let sheet = ss.getSheetByName('Views');
+  if (!sheet) {
+    sheet = ss.insertSheet('Views');
+    sheet.appendRow(['Timestamp', 'Event', 'Source', 'Lead', 'Page', 'Region', 'Project']);
+    sheet.getRange('A1:G1').setFontWeight('bold').setBackground('#7c3aed').setFontColor('#ffffff');
+    sheet.setFrozenRows(1);
+  }
+  return sheet;
+}
+
+function handleProposalView(data) {
+  const sheet = getOrCreateViewsSheet();
+  sheet.appendRow([
+    new Date(),
+    'proposal_view',
+    data.source  || VIEW_LABEL,
+    data.lead    || '',
+    data.page    || '',
+    data.region  || REGION_LABEL,
+    data.project || PROJECT_LABEL
+  ]);
+  return ContentService
+    .createTextOutput(JSON.stringify({ ok: true, event: 'proposal_view' }))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
 function doPost(e) {
   try {
     const data = JSON.parse(e.postData.contents);
+
+    // Branch: proposal_view goes to its own tab, leaves the leads sheet untouched
+    // and does NOT send an email backup.
+    if (data.event === 'proposal_view') {
+      return handleProposalView(data);
+    }
+
     const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
 
     if (sheet.getLastRow() === 0) {

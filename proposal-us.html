@@ -2160,6 +2160,31 @@
 </div>
 
 <script>
+  // Proposal view tracking — fires once per session per (page+lead) when
+  // ?lead=… is present in the URL. Does not block render. Silent on failure.
+  (function trackProposalView() {
+    try {
+      var params = new URLSearchParams(window.location.search);
+      var lead = params.get('lead');
+      if (!lead) return;
+      var page = window.location.href;
+      var dedupeKey = 'pv:' + lead + ':' + window.location.pathname;
+      if (sessionStorage.getItem(dedupeKey)) return;
+      sessionStorage.setItem(dedupeKey, '1');
+      fetch('/api/submit-lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          event:  'proposal_view',
+          source: 'Indianapolis Grooming Proposal',
+          lead:   lead,
+          page:   page
+        }),
+        keepalive: true
+      }).catch(function(){ /* silent */ });
+    } catch (e) { /* silent */ }
+  })();
+
   // Scroll progress bar
   window.addEventListener('scroll', function() {
     var bar = document.getElementById('progress-bar');
